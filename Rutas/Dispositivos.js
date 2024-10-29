@@ -1,43 +1,51 @@
-// routes/alumnos.js
+// routes/dispositivos.js
 const express = require('express');
 const router = express.Router();
 
 // Datos de ejemplo para simular una base de datos (puedes sustituir esto por una base de datos real)
-let alumnos = [
-  { id: 1, matricula: '2023001', nombre: 'Juan Pérez', edad: 21, carrera: 'Ingeniería' },
-  { id: 2, matricula: '2023002', nombre: 'María López', edad: 22, carrera: 'Arquitectura' },
+let dispositivos = [
+  { id: 1, modelo: 'Galaxy S21', marca: 'Samsung', año: 2021, caracteristicas: '128GB, 8GB RAM, 5G' },
+{ id: 2, modelo: 'iPhone 13', marca: 'Apple', año: 2021, caracteristicas: '128GB, 6GB RAM, 5G' },
+{ id: 3, modelo: 'Pixel 5', marca: 'Google', año: 2020, caracteristicas: '128GB, 8GB RAM, 5G' },
+{ id: 4, modelo: 'OnePlus 9', marca: 'OnePlus', año: 2021, caracteristicas: '128GB, 8GB RAM, 5G' },
+{ id: 5, modelo: 'Xiaomi Mi 11', marca: 'Xiaomi', año: 2021, caracteristicas: '256GB, 8GB RAM, 5G' },
+{ id: 6, modelo: 'iPhone 12', marca: 'Apple', año: 2020, caracteristicas: '128GB, 4GB RAM, 5G' },
+{ id: 7, modelo: 'Samsung Galaxy Note 20', marca: 'Samsung', año: 2020, caracteristicas: '256GB, 8GB RAM, 5G' },
+{ id: 8, modelo: 'Google Pixel 7', marca: 'Google', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G' },
+{ id: 9, modelo: 'iPhone 14', marca: 'Apple', año: 2022, caracteristicas: '128GB, 6GB RAM, 5G' },
+{ id: 10, modelo: 'Samsung Galaxy S24', marca: 'Samsung', año: 2024, caracteristicas: '256GB, 12GB RAM, 5G' },
 ];
 
-// Obtener todos los alumnos
+// Obtener todos los dispositivos
 router.get('/', (req, res) => {
-  res.json(alumnos);
+  res.json(dispositivos);
 });
 
-// Agregar un nuevo alumno
+// Agregar un nuevo dispositivo
 router.post('/', (req, res) => {
-  const nuevoAlumno = req.body;
-  nuevoAlumno.id = alumnos.length + 1;
-  alumnos.push(nuevoAlumno);
-  res.status(201).json(nuevoAlumno);
+  const nuevoDispositivo = req.body;
+  nuevoDispositivo.id = dispositivos.length + 1;
+  dispositivos.push(nuevoDispositivo);
+  res.status(201).json(nuevoDispositivo);
 });
 
-// Actualizar un alumno
+// Actualizar un dispositivo
 router.put('/:id', (req, res) => {
   const { id } = req.params;
-  const alumnoIndex = alumnos.findIndex(al => al.id === parseInt(id));
-  if (alumnoIndex !== -1) {
-    alumnos[alumnoIndex] = { ...alumnos[alumnoIndex], ...req.body };
-    res.json(alumnos[alumnoIndex]);
+  const dispositivoIndex = dispositivos.findIndex(dev => dev.id === parseInt(id));
+  if (dispositivoIndex !== -1) {
+    dispositivos[dispositivoIndex] = { ...dispositivos[dispositivoIndex], ...req.body };
+    res.json(dispositivos[dispositivoIndex]);
   } else {
-    res.status(404).json({ mensaje: 'Alumno no encontrado' });
+    res.status(404).json({ mensaje: 'Dispositivo no encontrado' });
   }
 });
 
-// Eliminar un alumno
+// Eliminar un dispositivo
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  alumnos = alumnos.filter(al => al.id !== parseInt(id));
-  res.json({ mensaje: 'Alumno eliminado' });
+  dispositivos = dispositivos.filter(dev => dev.id !== parseInt(id));
+  res.json({ mensaje: 'Dispositivo eliminado' });
 });
 
 module.exports = router;
