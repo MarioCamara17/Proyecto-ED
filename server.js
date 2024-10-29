@@ -1,19 +1,20 @@
-// server.js
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 3500;
 
-// Middlewares
-app.use(cors()); // Permitir CORS para todas las rutas
-app.use(express.json()); // Permitir recibir datos en formato JSON
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Rutas
-const DispositivosRoutes = require('./Rutas/Dispositivos');
-app.use('/api/Dispositivos', DispositivosRoutes); // 
+// Importar y utilizar las rutas de dispositivos
+const dispositivosRoutes = require('./routes/Dispositivos'); // Asegúrate de que la ruta y el nombre del archivo sean correctos
+app.use('/api/Dispositivos', dispositivosRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+    console.log(`Servidor corriendo en http://localhost:${port}`);
 });
