@@ -1,51 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
-function Home() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function Menu() {
+  const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3500/api/Dispositivos"); // URL actualizada
-        if (!response.ok) {
-          throw new Error("Error en la solicitud");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Aquí puedes agregar la lógica para realizar la búsqueda en el servidor usando searchTerm
+    console.log('Buscando:', searchTerm);
+  };
 
   return (
-    <div className="row row-cols-1 row-cols-md-3 g-4">
-      {data.map((item) => (
-        <div className="col" key={item.id}>
-          <div className="card">
-            <img src={item.imagen} className="card-img-top" alt={item.modelo} />
-            <div className="card-body">
-              <h5 className="card-title">{item.modelo}</h5>
-              <p className="card-text">
-                <strong>Marca:</strong> {item.marca}<br />
-                <strong>Año:</strong> {item.año}<br />
-                <strong>Características:</strong> {item.caracteristicas}
-              </p>
-            </div>
-          </div>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">| BARRA DE NAVEGACIÓN |</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link active" aria-current="page" to="/">| INICIO |</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/tabla">| TABLA |</Link>
+            </li>
+          </ul>
+          <form className="d-flex" role="search" onSubmit={handleSearch}>
+            <input 
+              className="form-control me-2" 
+              type="search" 
+              placeholder="Buscar" 
+              aria-label="Buscar" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="btn btn-outline-primary" type="submit">Buscar</button>
+          </form>
         </div>
-      ))}
-    </div>
+      </div>
+    </nav>
   );
 }
 
-export default Home;
+export default Menu;
