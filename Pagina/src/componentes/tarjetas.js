@@ -61,13 +61,10 @@ function Home({ searchTerm }) {
       <div className="row row-cols-1 row-cols-md-3 g-4">
         {filteredData.map((item, index) => (
           <div className="col" key={item.id}>
-            <div className={`card ${getColorClass(index)} text-dark shadow-sm`}>
-              <img src={item.imagen} className="card-img-top" alt={item.modelo} />
+            <div className={`card ${getColorClass(index)} text-dark shadow-sm text-center`}>
+              <img src={item.imagen} className="card-img-top mx-auto" alt={item.modelo} style={{ maxWidth: '80%' }} />
               <div className="card-body">
                 <h5 className="card-title">{item.modelo}</h5>
-                <p className="card-text">
-                  <strong>Marca:</strong> {item.marca}
-                </p>
                 <div className="text-center mt-3">
                   <button 
                     className="btn btn-info" 
@@ -85,7 +82,7 @@ function Home({ searchTerm }) {
       {/* Componente para vista a pantalla completa */}
       {selectedItem && (
         <div className="full-screen-overlay" onClick={handleCloseFullScreen}>
-          <div className="full-screen-content" onClick={(e) => e.stopPropagation()}>
+          <div className="full-screen-content" onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
             <h2>{selectedItem.modelo}</h2>
             <img src={selectedItem.imagen} alt={selectedItem.modelo} style={{ maxWidth: '100%', maxHeight: '80vh' }} />
             <p><strong>Marca:</strong> {selectedItem.marca}</p>
