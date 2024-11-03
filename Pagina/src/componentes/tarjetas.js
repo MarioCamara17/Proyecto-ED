@@ -66,7 +66,9 @@ function Home({ searchTerm }) {
               <div className="card-body">
                 <h5 className="card-title">{item.modelo}</h5>
                 <p className="card-text">
-                  <strong>Marca:</strong> {item.marca}
+                  <strong>Marca:</strong> {item.marca}<br />
+                  <strong>Año:</strong> {item.año}<br />
+                  <strong>Características:</strong> {item.caracteristicas}
                 </p>
                 <div className="text-center mt-3">
                   <button 
