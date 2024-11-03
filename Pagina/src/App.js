@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import Menu from './componentes/menu';
 import Home from './componentes/tarjetas';
 import WelcomePage from './componentes/home';
@@ -12,7 +10,6 @@ function App() {
 
   return (
     <Router>
-         
       
       <div className="container-fluid">
         <Routes>

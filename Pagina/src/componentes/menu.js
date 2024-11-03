@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Menu({ setSearchTerm: propSetSearchTerm }) {
-  // Si no se pasa `setSearchTerm` como prop, usa el estado interno.
-  const [searchTerm, setSearchTerm] = useState('');
-
+function Menu({ setSearchTerm }) {
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log('Buscando:', searchTerm);
-  };
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    if (propSetSearchTerm) {
-      propSetSearchTerm(value);
-    }
+    // Aquí se realiza la búsqueda
   };
 
   return (
@@ -50,8 +39,7 @@ function Menu({ setSearchTerm: propSetSearchTerm }) {
               type="search" 
               placeholder="Buscar dispositivos..." 
               aria-label="Buscar" 
-              value={searchTerm}
-              onChange={handleInputChange} 
+              onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el término de búsqueda
             />
             <button className="btn btn-outline-primary" type="submit">Buscar</button>
           </form>
