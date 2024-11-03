@@ -1,51 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './fondo.css'
 
-function Home() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function WelcomePage() {
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3500/api/dispositivos"); // URL actualizada
-        if (!response.ok) {
-          throw new Error("Error en la solicitud");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const goToHome = () => {
+    navigate('/home'); // Navegar a la página de Menú y tarjetas
+  };
 
   return (
-    <div className="row row-cols-1 row-cols-md-3 g-4">
-      {data.map((item) => (
-        <div className="col" key={item.id}>
-          <div className="card">
-            <img src={item.imagen} className="card-img-top" alt={item.modelo} />
-            <div className="card-body">
-              <h5 className="card-title">{item.modelo}</h5>
-              <p className="card-text">
-                <strong>Marca:</strong> {item.marca}<br />
-                <strong>Año:</strong> {item.año}<br />
-                <strong>Características:</strong> {item.caracteristicas}
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
+    <div className="welcome-container text-center my-5">
+      <h1 className="welcome-title">Bienvenido a PhoneHub</h1>
+      <button className="welcome-button" onClick={goToHome}>Ir al Menú</button>
     </div>
   );
 }
 
-export default Home;
+export default WelcomePage;
+
+
+
+

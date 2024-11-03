@@ -1,0 +1,23 @@
+.full-screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegúrate de que esté en la parte superior */
+  }
+  
+  .full-screen-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 90%; /* Máximo ancho para evitar desbordamientos */
+    max-height: 90%; /* Máxima altura para evitar desbordamientos */
+    overflow: auto; /* Agregar desplazamiento si es necesario */
+  }
+  
