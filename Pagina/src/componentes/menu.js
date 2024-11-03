@@ -50,4 +50,3 @@ function Menu({ setSearchTerm }) {
 }
 
 export default Menu;
-
