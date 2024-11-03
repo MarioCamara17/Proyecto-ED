@@ -10,10 +10,14 @@ function App() {
 
   return (
     <Router>
-    <div className="container-fluid">
-    <Menu/>
-    <Rutas/>
-    </div>
+      
+      <div className="container-fluid">
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/home" element={<MenuWithCards searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
+          <Route path="/tabla" element={<Tabla />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
