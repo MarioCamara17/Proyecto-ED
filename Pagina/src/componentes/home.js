@@ -10,6 +10,7 @@ function WelcomePage() {
   };
 
   return (
+    
     <div className="welcome-container text-center my-5">
       <h1 className="welcome-title">Bienvenido a PhoneHub</h1>
       <button className="welcome-button" onClick={goToHome}>Ir al Menú</button>
