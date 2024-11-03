@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Importar y utilizar las rutas de dispositivos
-const dispositivosRoutes = require('./routes/Dispositivos'); // Asegúrate de que la ruta y el nombre del archivo sean correctos
+const dispositivosRoutes = require('./routes/dispositivos'); // Asegúrate de que la ruta y el nombre del archivo sean correctos
 app.use('/api/Dispositivos', dispositivosRoutes);
 
 // Iniciar el servidor
