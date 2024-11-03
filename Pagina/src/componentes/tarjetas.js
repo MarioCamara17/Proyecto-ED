@@ -65,6 +65,9 @@ function Home({ searchTerm }) {
               <img src={item.imagen} className="card-img-top mx-auto" alt={item.modelo} style={{ maxWidth: '80%' }} />
               <div className="card-body">
                 <h5 className="card-title">{item.modelo}</h5>
+                <p className="card-text">
+                  <strong>Marca:</strong> {item.marca}
+                </p>
                 <div className="text-center mt-3">
                   <button 
                     className="btn btn-info" 
