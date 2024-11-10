@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Menu from './componentes/menu';
 import Home from './componentes/tarjetas';
 import WelcomePage from './componentes/home';
-import Tabla from './componentes/tabla'; 
+import Tabla from './componentes/tabla';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');

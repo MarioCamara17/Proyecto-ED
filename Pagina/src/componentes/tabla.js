@@ -5,7 +5,7 @@ function Tabla() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editing, setEditing] = useState(null);
+
   const [newDispositivo, setNewDispositivo] = useState({
     modelo: "",
     marca: "",
@@ -13,6 +13,12 @@ function Tabla() {
     caracteristicas: ""
   });
   const [formErrors, setFormErrors] = useState({});
+
+  const [isVisible, setIsVisible] = useState({
+    Samsung: false,
+    Apple: false,
+    Huawei: false
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +34,7 @@ function Tabla() {
     fetchData();
   }, []);
 
-  const handleAgregar = async () => {
+  const handleAgregar = async (marca) => {
     const errors = validateForm(newDispositivo);
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -36,22 +42,14 @@ function Tabla() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3500/api/dispositivos", newDispositivo);
+      const newItem = { ...newDispositivo, marca };
+      const response = await axios.post("http://localhost:3500/api/dispositivos", newItem);
       setData([...data, response.data]);
       setNewDispositivo({ modelo: "", marca: "", año: "", caracteristicas: "" });
       setFormErrors({});
     } catch (err) {
-      setError(err.message);
+      setError(`Error al agregar dispositivo: ${err.message}`);
     }
-  };
-
-  const validateForm = (dispositivo) => {
-    const errors = {};
-    if (!dispositivo.modelo) errors.modelo = "El modelo es obligatorio.";
-    if (!dispositivo.marca) errors.marca = "La marca es obligatoria.";
-    if (!dispositivo.año) errors.año = "El año es obligatorio.";
-    if (!dispositivo.caracteristicas) errors.caracteristicas = "Las características son obligatorias.";
-    return errors;
   };
 
   const handleEliminar = async (id) => {
@@ -60,26 +58,8 @@ function Tabla() {
         await axios.delete(`http://localhost:3500/api/dispositivos/${id}`);
         setData(data.filter((item) => item.id !== id));
       } catch (err) {
-        setError(err.message);
+        setError(`Error al eliminar dispositivo: ${err.message}`);
       }
-    }
-  };
-
-  const handleModificar = (id) => {
-    const dispositivo = data.find((item) => item.id === id);
-    setNewDispositivo(dispositivo);
-    setEditing(id);
-  };
-
-  const handleGuardarModificacion = async () => {
-    try {
-      const response = await axios.put(`http://localhost:3500/api/dispositivos/${editing}`, newDispositivo);
-      setData(data.map((item) => (item.id === editing ? response.data : item)));
-      setEditing(null);
-      setNewDispositivo({ modelo: "", marca: "", año: "", caracteristicas: "" });
-      setFormErrors({});
-    } catch (err) {
-      setError(err.message);
     }
   };
 
@@ -89,100 +69,117 @@ function Tabla() {
     setFormErrors({ ...formErrors, [name]: "" });
   };
 
+  const marcas = ["Samsung", "Apple", "Huawei"];
+
+  const toggleTableVisibility = (marca) => {
+    setIsVisible((prev) => ({ ...prev, [marca]: !prev[marca] }));
+  };
+
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <>
-      <div style={{ overflowY: 'auto', maxHeight: '100vh', padding: '20px' }}>
-        <div className="row mb-3">
-          <div className="col-8">
-            <input
-              type="text"
-              name="modelo"
-              placeholder="Modelo"
-              value={newDispositivo.modelo}
-              onChange={handleInputChange}
-              className={`form-control mb-2 ${formErrors.modelo ? 'is-invalid' : ''}`}
-            />
-            <div className="invalid-feedback">{formErrors.modelo}</div>
-            <input
-              type="text"
-              name="marca"
-              placeholder="Marca"
-              value={newDispositivo.marca}
-              onChange={handleInputChange}
-              className={`form-control mb-2 ${formErrors.marca ? 'is-invalid' : ''}`}
-            />
-            <div className="invalid-feedback">{formErrors.marca}</div>
-            <input
-              type="number"
-              name="año"
-              placeholder="Año"
-              value={newDispositivo.año}
-              onChange={handleInputChange}
-              className={`form-control mb-2 ${formErrors.año ? 'is-invalid' : ''}`}
-            />
-            <div className="invalid-feedback">{formErrors.año}</div>
-            <input
-              type="text"
-              name="caracteristicas"
-              placeholder="Características"
-              value={newDispositivo.caracteristicas}
-              onChange={handleInputChange}
-              className={`form-control mb-2 ${formErrors.caracteristicas ? 'is-invalid' : ''}`}
-            />
-            <div className="invalid-feedback">{formErrors.caracteristicas}</div>
-          </div>
-          <div className="col-4 d-grid">
-            {editing ? (
-              <button className="btn btn-success" onClick={handleGuardarModificacion}>
-                Guardar Cambios
-              </button>
-            ) : (
-              <button className="btn btn-primary" onClick={handleAgregar}>
-                Agregar
-              </button>
-            )}
-          </div>
-        </div>
+    <div style={{ padding: "20px" }}>
+      {marcas.map((marca) => (
+        <div key={marca} style={{ marginBottom: "40px" }}>
+          <h2>
+            <button onClick={() => toggleTableVisibility(marca)}>
+              {isVisible[marca] ? `Ocultar Tabla de ${marca}` : `Mostrar Tabla de ${marca}`}
+            </button>
+          </h2>
+          {isVisible[marca] && (
+            <div>
+              <div className="row mb-3">
+                <div className="col-8">
+                  <input
+                    type="text"
+                    name="modelo"
+                    placeholder="Modelo"
+                    value={newDispositivo.modelo}
+                    onChange={handleInputChange}
+                    className={`form-control mb-2 ${formErrors.modelo ? "is-invalid" : ""}`}
+                  />
+                  <div className="invalid-feedback">{formErrors.modelo}</div>
+                  <input
+                    type="number"
+                    name="año"
+                    placeholder="Año"
+                    value={newDispositivo.año}
+                    onChange={handleInputChange}
+                    className={`form-control mb-2 ${formErrors.año ? "is-invalid" : ""}`}
+                  />
+                  <div className="invalid-feedback">{formErrors.año}</div>
+                  <input
+                    type="text"
+                    name="caracteristicas"
+                    placeholder="Características"
+                    value={newDispositivo.caracteristicas}
+                    onChange={handleInputChange}
+                    className={`form-control mb-2 ${formErrors.caracteristicas ? "is-invalid" : ""}`}
+                  />
+                  <div className="invalid-feedback">{formErrors.caracteristicas}</div>
+                </div>
+                <div className="col-4 d-grid">
+                  <button className="btn btn-primary" onClick={() => handleAgregar(marca)}>
+                    Agregar
+                  </button>
+                </div>
+              </div>
 
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Modelo</th>
-              <th>Marca</th>
-              <th>Año</th>
-              <th>Características</th>
-              <th>Eliminar</th>
-              <th>Modificar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.modelo}</td>
-                <td>{item.marca}</td>
-                <td>{item.año}</td>
-                <td>{item.caracteristicas}</td>
-                <td>
-                  <button className="btn btn-danger" onClick={() => handleEliminar(item.id)}>
-                    Eliminar
-                  </button>
-                </td>
-                <td>
-                  <button className="btn btn-warning" onClick={() => handleModificar(item.id)}>
-                    Modificar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Año</th>
+                    <th>Características</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data
+                    .filter((item) => item.marca === marca)
+                    .map((item) => (
+                      <tr key={item.id}>
+                        <td>{item.modelo}</td>
+                        <td>{item.marca}</td>
+                        <td>{item.año}</td>
+                        <td>{item.caracteristicas}</td>
+                        <td>
+                          <button className="btn btn-danger" onClick={() => handleEliminar(item.id)}>
+                            Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
   );
 }
 
-export default Tabla;
+const validateForm = (form) => {
+  const errors = {};
 
+  if (!form.modelo) {
+    errors.modelo = "El modelo es obligatorio.";
+  }
+
+  if (!form.año) {
+    errors.año = "El año es obligatorio.";
+  } else if (isNaN(form.año)) {
+    errors.año = "El año debe ser un número.";
+  }
+
+  if (!form.caracteristicas) {
+    errors.caracteristicas = "Las características son obligatorias.";
+  }
+
+  return errors;
+};
+
+export default Tabla;
