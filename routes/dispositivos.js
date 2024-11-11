@@ -3,52 +3,67 @@ const router = express.Router();
 
 // Datos de ejemplo para simular una base de datos
 let dispositivos = [
-  { id: 1, modelo: 'Galaxy S21', marca: 'Samsung', año: 2021, caracteristicas: '128GB, 8GB RAM, 5G',imagen:'galaxy S21.jpg'},
-  { id: 2, modelo: 'iPhone 13', marca: 'Apple', año: 2021, caracteristicas: '128GB, 6GB RAM, 5G', imagen:'iphone13.jpg' },
-  { id: 4, modelo: 'OnePlus 9', marca: 'OnePlus', año: 2021, caracteristicas: '128GB, 8GB RAM, 5G', imagen:'OnePlus 9.png' },
-  { id: 5, modelo: 'Xiaomi Mi 11', marca: 'Xiaomi', año: 2021, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'Xiaomi Mi 11.png'},
-  { id: 6, modelo: 'iPhone 12', marca: 'Apple', año: 2020, caracteristicas: '128GB, 4GB RAM, 5G', imagen:'iPhone 12.jpg' },
-  { id: 7, modelo: 'Samsung Galaxy Note 20', marca: 'Samsung', año: 2020, caracteristicas: '256GB, 8GB RAM, 5G', imagen:'Samsung Galaxy Note 20.webp' },
-  { id: 8, modelo: 'Google Pixel 7', marca: 'Google', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen:'Google Pixel 7.png' },
-  { id: 9, modelo: 'iPhone 14', marca: 'Apple', año: 2022, caracteristicas: '128GB, 6GB RAM, 5G', imagen:'iphone-14.jpeg' },
-  { id: 10, modelo: 'Samsung Galaxy S24 ULtra', marca: 'Samsung', año: 2024, caracteristicas: '256GB, 12GB RAM, 5G',imagen:'Galaxy S24 ultra.png' },
+  { id: 1, modelo: 'Galaxy S21', marca: 'Samsung', año: 2021, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'galaxy S21.jpg' },
+  { id: 2, modelo: 'iPhone 13', marca: 'Apple', año: 2021, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'iphone13.jpg' },
+  { id: 3, modelo: 'Huawei P40', marca: 'Huawei', año: 2020, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'huawei_p40.jpg' }
 ];
 
-// Obtener todos los dispositivos
+// Función para generar 10 modelos vacíos
+const generateEmptyModels = (brand) => {
+  return Array.from({ length: 10 }, (_, index) => ({
+    id: dispositivos.length + index + 1,
+    modelo: `Modelo Vacío ${index + 1}`,
+    marca: brand,
+    año: 2024,
+    caracteristicas: 'Por definir',
+    imagen: 'default_image.png'
+  }));
+};
+
+// Función para generar 10 modelos de Apple
+const generateAppleModels = () => {
+  return Array.from({ length: 10 }, (_, index) => ({
+    id: dispositivos.length + index + 1,
+    modelo: `iPhone ${14 - index}`,
+    marca: 'Apple',
+    año: 2024 - index,
+    caracteristicas: `Características del iPhone ${14 - index}`,
+    imagen: `iphone_${14 - index}.jpg`
+  }));
+};
+
+// Endpoint para obtener los dispositivos de una marca específica
 router.get('/', (req, res) => {
-  res.json(dispositivos);
+  const { marca } = req.query;
+  if (marca === 'Samsung' || marca === 'Huawei') {
+    res.json(generateEmptyModels(marca));
+  } else if (marca === 'Apple') {
+    res.json(generateAppleModels());
+  } else {
+    res.json(dispositivos);
+  }
 });
 
-// Agregar un nuevo dispositivo
+// Endpoint para agregar un dispositivo
 router.post('/', (req, res) => {
-  const nuevoDispositivo = req.body;
-  nuevoDispositivo.id = dispositivos.length ? dispositivos[dispositivos.length - 1].id + 1 : 1; // Mejor manejo de ID
-  dispositivos.push(nuevoDispositivo);
-  res.status(201).json(nuevoDispositivo);
-});
+  const { modelo, marca, año, caracteristicas, imagen } = req.body;
 
-// Actualizar un dispositivo
-router.put('/:id', (req, res) => {
-  const { id } = req.params;
-  const dispositivoIndex = dispositivos.findIndex(dev => dev.id === parseInt(id));
-  if (dispositivoIndex !== -1) {
-    dispositivos[dispositivoIndex] = { ...dispositivos[dispositivoIndex], ...req.body };
-    res.json(dispositivos[dispositivoIndex]);
-  } else {
-    res.status(404).json({ mensaje: 'Dispositivo no encontrado' });
+  if (!modelo || !marca || !año || !caracteristicas) {
+    return res.status(400).json({ error: 'Faltan datos necesarios para agregar el dispositivo.' });
   }
-});
 
-// Eliminar un dispositivo
-router.delete('/:id', (req, res) => {
-  const { id } = req.params;
-  const dispositivoIndex = dispositivos.findIndex(dev => dev.id === parseInt(id));
-  if (dispositivoIndex !== -1) {
-    dispositivos.splice(dispositivoIndex, 1); // Eliminar el dispositivo
-    res.json({ mensaje: 'Dispositivo eliminado' });
-  } else {
-    res.status(404).json({ mensaje: 'Dispositivo no encontrado' });
-  }
+  const newDispositivo = {
+    id: dispositivos.length + 1,
+    modelo,
+    marca,
+    año,
+    caracteristicas,
+    imagen: imagen || 'default_image.png' // Si no se pasa una imagen, se asigna una por defecto
+  };
+
+  dispositivos.push(newDispositivo);
+  res.status(201).json(newDispositivo); // Devuelve el dispositivo agregado con el código de estado 201
 });
 
 module.exports = router;
+
