@@ -5,21 +5,19 @@ import './fondo.css'
 function WelcomePage() {
   const navigate = useNavigate();
 
-  const goToHome = () => {
-    navigate('/home'); // Navegar a la página de Menú y tarjetas
+  const goToInicio = () => {
+    navigate('/inicio'); // Navegar a la página de Inicio
   };
 
   return (
-    
     <div className="welcome-container text-center my-5">
       <h1 className="welcome-title">Bienvenido a PhoneHub</h1>
-      <button className="welcome-button" onClick={goToHome}>Ir al Menú</button>
+      <button className="welcome-button" onClick={goToInicio}>Ir al Menú</button>
     </div>
   );
 }
 
 export default WelcomePage;
-
 
 
 
