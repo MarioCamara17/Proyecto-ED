@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./home.css";
 
 function Home({ searchTerm }) {
-  const [data, setData] = useState([]);
+  const [dataApple, setDataApple] = useState([]); // Datos de Apple
+  const [dataSamsung, setDataSamsung] = useState([]); // Datos de Samsung
+  const [dataHuawei, setDataHuawei] = useState([]); // Datos de Huawei
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -15,9 +17,15 @@ function Home({ searchTerm }) {
           throw new Error("Error en la solicitud");
         }
         const result = await response.json();
-        // Filtrar solo los dispositivos de Apple
+
+        // Filtrar dispositivos de Apple, Samsung y Huawei
         const appleDevices = result.filter((item) => item.marca === "Apple");
-        setData(appleDevices);
+        const samsungDevices = result.filter((item) => item.marca === "Samsung");
+        const huaweiDevices = result.filter((item) => item.marca === "Huawei");
+
+        setDataApple(appleDevices);
+        setDataSamsung(samsungDevices);
+        setDataHuawei(huaweiDevices);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -32,7 +40,17 @@ function Home({ searchTerm }) {
   if (error) return <p>Error: {error}</p>;
 
   // Filtrar datos según el término de búsqueda
-  const filteredData = data.filter((item) =>
+  const filteredAppleData = dataApple.filter((item) =>
+    item.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.marca.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const filteredSamsungData = dataSamsung.filter((item) =>
+    item.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.marca.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const filteredHuaweiData = dataHuawei.filter((item) =>
     item.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.marca.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -47,8 +65,45 @@ function Home({ searchTerm }) {
 
   return (
     <div style={{ overflowY: 'scroll', maxHeight: '100vh', padding: '20px' }}>
+      <h2>Dispositivos Apple</h2>
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {filteredData.map((item, index) => (
+        {filteredAppleData.map((item) => (
+          <div className="col" key={item.id}>
+            <div className="card bg-light text-dark shadow-sm text-center">
+              <img src={item.imagen || "default_image.png"} className="card-img-top mx-auto" alt={item.modelo} style={{ maxWidth: '80%' }} />
+              <div className="card-body">
+                <h5 className="card-title">{item.modelo}</h5>
+                <p className="card-text"><strong>Marca:</strong> {item.marca}</p>
+                <div className="text-center mt-3">
+                  <button className="btn btn-info" onClick={() => handleButtonClick(item)}>Más información</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h2>Dispositivos Samsung</h2>
+      <div className="row row-cols-1 row-cols-md-3 g-4">
+        {filteredSamsungData.map((item) => (
+          <div className="col" key={item.id}>
+            <div className="card bg-light text-dark shadow-sm text-center">
+              <img src={item.imagen || "default_image.png"} className="card-img-top mx-auto" alt={item.modelo} style={{ maxWidth: '80%' }} />
+              <div className="card-body">
+                <h5 className="card-title">{item.modelo}</h5>
+                <p className="card-text"><strong>Marca:</strong> {item.marca}</p>
+                <div className="text-center mt-3">
+                  <button className="btn btn-info" onClick={() => handleButtonClick(item)}>Más información</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h2>Dispositivos Huawei</h2>
+      <div className="row row-cols-1 row-cols-md-3 g-4">
+        {filteredHuaweiData.map((item) => (
           <div className="col" key={item.id}>
             <div className="card bg-light text-dark shadow-sm text-center">
               <img src={item.imagen || "default_image.png"} className="card-img-top mx-auto" alt={item.modelo} style={{ maxWidth: '80%' }} />
