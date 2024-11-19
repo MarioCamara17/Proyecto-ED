@@ -42,7 +42,7 @@ function App() {
 
           {/* Rutas para tarjetas específicas de cada marca */}
           <Route path="tarjetasS" element={<TarjetasS />} />
-          <Route path="/tarjetas-huawei" element={<TarjetasH />} />
+          <Route path="/tarjetasH" element={<TarjetasH />} />
         </Routes>
       </div>
     </Router>

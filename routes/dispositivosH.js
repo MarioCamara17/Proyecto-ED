@@ -1,26 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
-// Arreglo lleno con 10 dispositivos de iPhone
-let iphoneModels = [
-  { id: 4, modelo: 'iPhone 14', marca: 'Apple', año: 2024, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_14.jpg' },
-  { id: 5, modelo: 'iPhone 13 Pro', marca: 'Apple', año: 2023, caracteristicas: '512GB, 8GB RAM, 5G', imagen: 'iphone_13_pro.jpg' },
-  { id: 6, modelo: 'iPhone 13', marca: 'Apple', año: 2022, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'iphone_13.jpg' },
-  { id: 7, modelo: 'iPhone 12 Pro Max', marca: 'Apple', año: 2021, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_12_pro_max.jpg' },
-  { id: 8, modelo: 'iPhone 12', marca: 'Apple', año: 2021, caracteristicas: '128GB, 4GB RAM, 5G', imagen: 'iphone_12.jpg' },
-  { id: 9, modelo: 'iPhone 11 Pro', marca: 'Apple', año: 2020, caracteristicas: '256GB, 4GB RAM, 4G', imagen: 'iphone_11_pro.jpg' },
-  { id: 10, modelo: 'iPhone 11', marca: 'Apple', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'iphone_11.jpg' },
-  { id: 11, modelo: 'iPhone XR', marca: 'Apple', año: 2019, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_xr.jpg' },
-  { id: 12, modelo: 'iPhone X', marca: 'Apple', año: 2018, caracteristicas: '256GB, 3GB RAM, 4G', imagen: 'iphone_x.jpg' },
-  { id: 13, modelo: 'iPhone 8 Plus', marca: 'Apple', año: 2017, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_8_plus.jpg' }
+// Arreglo lleno con 10 dispositivos Huawei
+let huaweiModels = [
+  { id: 1, modelo: 'Mate 60 Pro', marca: 'Huawei', año: 2024, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'mate_60_pro.jpg' },
+  { id: 2, modelo: 'P50 Pro', marca: 'Huawei', año: 2023, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'p50_pro.jpg' },
+  { id: 3, modelo: 'Nova 10', marca: 'Huawei', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'nova_10.jpg' },
+  { id: 4, modelo: 'Mate 40 Pro', marca: 'Huawei', año: 2021, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'mate_40_pro.jpg' },
+  { id: 5, modelo: 'P40 Lite', marca: 'Huawei', año: 2020, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'p40_lite.jpg' },
+  { id: 6, modelo: 'Mate 30 Pro', marca: 'Huawei', año: 2019, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'mate_30_pro.jpg' },
+  { id: 7, modelo: 'P30 Pro', marca: 'Huawei', año: 2019, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'p30_pro.jpg' },
+  { id: 8, modelo: 'Mate 20', marca: 'Huawei', año: 2018, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'mate_20.jpg' },
+  { id: 9, modelo: 'P20', marca: 'Huawei', año: 2017, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'p20.jpg' },
+  { id: 10, modelo: 'Mate 10 Pro', marca: 'Huawei', año: 2016, caracteristicas: '64GB, 4GB RAM, 4G', imagen: 'mate_10_pro.jpg' }
 ];
 
-// Endpoint para obtener todos los dispositivos de iPhone
+// Endpoint para obtener todos los dispositivos Huawei
 router.get('/', (req, res) => {
-  res.json(iphoneModels); // Devolvemos solo los dispositivos de iPhone
+  res.json(huaweiModels); // Devolvemos solo los dispositivos Huawei
 });
 
-// Endpoint para agregar un dispositivo de iPhone
+// Endpoint para agregar un dispositivo Huawei
 router.post('/', (req, res) => {
   const { modelo, marca, año, caracteristicas, imagen } = req.body;
 
@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
   }
 
   const newDispositivo = {
-    id: iphoneModels.length + 4, // Asegúrate de continuar con el id después de los existentes
+    id: huaweiModels.length + 1, // Asegúrate de continuar con el id después de los existentes
     modelo,
     marca,
     año,
@@ -37,23 +37,23 @@ router.post('/', (req, res) => {
     imagen: imagen || 'default_image.png' // Imagen por defecto si no se proporciona una
   };
 
-  iphoneModels.push(newDispositivo); // Agregar el nuevo dispositivo de iPhone
+  huaweiModels.push(newDispositivo); // Agregar el nuevo dispositivo Huawei
   res.status(201).json(newDispositivo); // Devolver el dispositivo agregado con el código de estado 201
 });
 
-// Endpoint para eliminar un dispositivo de iPhone por su ID
+// Endpoint para eliminar un dispositivo Huawei por su ID
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   
   // Buscar el dispositivo por ID
-  const index = iphoneModels.findIndex((dispositivo) => dispositivo.id === parseInt(id));
+  const index = huaweiModels.findIndex((dispositivo) => dispositivo.id === parseInt(id));
 
   if (index === -1) {
     return res.status(404).json({ error: 'Dispositivo no encontrado' }); // Si no lo encontramos, devolvemos error
   }
 
   // Eliminar el dispositivo
-  iphoneModels.splice(index, 1); // Eliminamos el dispositivo por su índice
+  huaweiModels.splice(index, 1); // Eliminamos el dispositivo por su índice
 
   res.status(200).json({ message: 'Dispositivo eliminado correctamente' }); // Confirmamos la eliminación
 });
