@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios"; // Importa Axios
 import "./home.css";
 
 function Home({ searchTerm }) {
@@ -10,11 +11,9 @@ function Home({ searchTerm }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3500/api/dispositivos");
-        if (!response.ok) {
-          throw new Error("Error en la solicitud");
-        }
-        const result = await response.json();
+        const response = await axios.get("http://localhost:3500/api/dispositivos"); // Usando Axios para la solicitud GET
+        const result = response.data; // Los datos de la respuesta están en 'data'
+        
         // Filtrar solo los dispositivos de Apple
         const appleDevices = result.filter((item) => item.marca === "Apple");
         setData(appleDevices);
