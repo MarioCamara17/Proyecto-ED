@@ -1,26 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
-// Arreglo lleno con 10 dispositivos de iPhone
-let iphoneModels = [
-  { id: 4, modelo: 'iPhone 14', marca: 'Apple', año: 2024, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_14.jpg' },
-  { id: 5, modelo: 'iPhone 13 Pro', marca: 'Apple', año: 2023, caracteristicas: '512GB, 8GB RAM, 5G', imagen: 'iphone_13_pro.jpg' },
-  { id: 6, modelo: 'iPhone 13', marca: 'Apple', año: 2022, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'iphone_13.jpg' },
-  { id: 7, modelo: 'iPhone 12 Pro Max', marca: 'Apple', año: 2021, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_12_pro_max.jpg' },
-  { id: 8, modelo: 'iPhone 12', marca: 'Apple', año: 2021, caracteristicas: '128GB, 4GB RAM, 5G', imagen: 'iphone_12.jpg' },
-  { id: 9, modelo: 'iPhone 11 Pro', marca: 'Apple', año: 2020, caracteristicas: '256GB, 4GB RAM, 4G', imagen: 'iphone_11_pro.jpg' },
-  { id: 10, modelo: 'iPhone 11', marca: 'Apple', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'iphone_11.jpg' },
-  { id: 11, modelo: 'iPhone XR', marca: 'Apple', año: 2019, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_xr.jpg' },
-  { id: 12, modelo: 'iPhone X', marca: 'Apple', año: 2018, caracteristicas: '256GB, 3GB RAM, 4G', imagen: 'iphone_x.jpg' },
-  { id: 13, modelo: 'iPhone 8 Plus', marca: 'Apple', año: 2017, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_8_plus.jpg' }
+// Arreglo lleno con 10 dispositivos Samsung
+let samsungModels = [
+  { id: 4, modelo: 'Galaxy S23 Ultra', marca: 'Samsung', año: 2024, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'galaxy_s23_ultra.jpg' },
+  { id: 5, modelo: 'Galaxy S22', marca: 'Samsung', año: 2023, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'galaxy_s22.jpg' },
+  { id: 6, modelo: 'Galaxy S21', marca: 'Samsung', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'galaxy_s21.jpg' },
+  { id: 7, modelo: 'Galaxy Note 20 Ultra', marca: 'Samsung', año: 2021, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'galaxy_note_20_ultra.jpg' },
+  { id: 8, modelo: 'Galaxy A72', marca: 'Samsung', año: 2021, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'galaxy_a72.jpg' },
+  { id: 9, modelo: 'Galaxy S20 FE', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'galaxy_s20_fe.jpg' },
+  { id: 10, modelo: 'Galaxy A52', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'galaxy_a52.jpg' },
+  { id: 11, modelo: 'Galaxy A50', marca: 'Samsung', año: 2019, caracteristicas: '64GB, 4GB RAM, 4G', imagen: 'galaxy_a50.jpg' },
+  { id: 12, modelo: 'Galaxy S10', marca: 'Samsung', año: 2018, caracteristicas: '256GB, 8GB RAM, 4G', imagen: 'galaxy_s10.jpg' },
+  { id: 13, modelo: 'Galaxy Note 9', marca: 'Samsung', año: 2017, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'galaxy_note_9.jpg' }
 ];
 
-// Endpoint para obtener todos los dispositivos de iPhone
+// Endpoint para obtener todos los dispositivos Samsung
 router.get('/', (req, res) => {
-  res.json(iphoneModels); // Devolvemos solo los dispositivos de iPhone
+  res.json(samsungModels); // Devolvemos solo los dispositivos Samsung
 });
 
-// Endpoint para agregar un dispositivo de iPhone
+// Endpoint para agregar un dispositivo Samsung
 router.post('/', (req, res) => {
   const { modelo, marca, año, caracteristicas, imagen } = req.body;
 
@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
   }
 
   const newDispositivo = {
-    id: iphoneModels.length + 4, // Asegúrate de continuar con el id después de los existentes
+    id: samsungModels.length + 4, // Asegúrate de continuar con el id después de los existentes
     modelo,
     marca,
     año,
@@ -37,23 +37,23 @@ router.post('/', (req, res) => {
     imagen: imagen || 'default_image.png' // Imagen por defecto si no se proporciona una
   };
 
-  iphoneModels.push(newDispositivo); // Agregar el nuevo dispositivo de iPhone
+  samsungModels.push(newDispositivo); // Agregar el nuevo dispositivo Samsung
   res.status(201).json(newDispositivo); // Devolver el dispositivo agregado con el código de estado 201
 });
 
-// Endpoint para eliminar un dispositivo de iPhone por su ID
+// Endpoint para eliminar un dispositivo Samsung por su ID
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   
   // Buscar el dispositivo por ID
-  const index = iphoneModels.findIndex((dispositivo) => dispositivo.id === parseInt(id));
+  const index = samsungModels.findIndex((dispositivo) => dispositivo.id === parseInt(id));
 
   if (index === -1) {
     return res.status(404).json({ error: 'Dispositivo no encontrado' }); // Si no lo encontramos, devolvemos error
   }
 
   // Eliminar el dispositivo
-  iphoneModels.splice(index, 1); // Eliminamos el dispositivo por su índice
+  samsungModels.splice(index, 1); // Eliminamos el dispositivo por su índice
 
   res.status(200).json({ message: 'Dispositivo eliminado correctamente' }); // Confirmamos la eliminación
 });
