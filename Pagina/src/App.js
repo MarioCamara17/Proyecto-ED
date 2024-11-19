@@ -27,7 +27,7 @@ function App() {
             element={<Tabla data={data} setData={setData} />}
           />
           <Route path="/tabla-samsung" element={<TablaS />} />
-          <Route path="/tabla-huawei" element={<TablaH />} />
+          <Route path="/tablaH" element={<TablaH />} />
         </Routes>
       </div>
     </Router>

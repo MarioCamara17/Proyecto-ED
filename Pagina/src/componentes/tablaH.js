@@ -8,7 +8,7 @@ function TablaH() {
 
   const [newDispositivo, setNewDispositivo] = useState({
     modelo: "",
-    marca: "Apple", // Fijamos la marca a Apple
+    marca: "Huawei", // Fijamos la marca a Huawei
     año: "",
     caracteristicas: ""
   });
@@ -17,10 +17,10 @@ function TablaH() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3500/api/dispositivos");
-        // Filtrar solo los dispositivos de Apple
-        const appleDevices = response.data.filter((item) => item.marca === "Apple");
-        setData(appleDevices);
+        const response = await axios.get("http://localhost:3500/api/dispositivosH");
+        // Filtrar solo los dispositivos de Huawei
+        const huaweiDevices = response.data.filter((item) => item.marca === "Huawei");
+        setData(huaweiDevices);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -38,9 +38,9 @@ function TablaH() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3500/api/dispositivos", newDispositivo);
+      const response = await axios.post("http://localhost:3500/api/dispositivosH", newDispositivo);
       setData([...data, response.data]);
-      setNewDispositivo({ modelo: "", marca: "Apple", año: "", caracteristicas: "" });
+      setNewDispositivo({ modelo: "", marca: "Huawei", año: "", caracteristicas: "" });
       setFormErrors({});
     } catch (err) {
       setError(`Error al agregar dispositivo: ${err.message}`);
@@ -50,7 +50,7 @@ function TablaH() {
   const handleEliminar = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este dispositivo?")) {
       try {
-        await axios.delete(`http://localhost:3500/api/dispositivos/${id}`);
+        await axios.delete(`http://localhost:3500/api/dispositivosH/${id}`);
         setData(data.filter((item) => item.id !== id));
       } catch (err) {
         setError(`Error al eliminar dispositivo: ${err.message}`);
@@ -69,7 +69,7 @@ function TablaH() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Mostrar Tabla de iPhone</h2>
+      <h2>Mostrar Tabla de Dispositivos Huawei</h2>
 
       <div className="row mb-3">
         <div className="col-8">
