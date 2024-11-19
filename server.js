@@ -14,6 +14,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const dispositivosRoutes = require('./routes/dispositivos'); // Asegúrate de que la ruta y el nombre del archivo sean correctos
 app.use('/api/Dispositivos', dispositivosRoutes);
 
+const dispositivosSRoutes = require('./routes/dispositivosS'); // Asegúrate de que la ruta y el nombre del archivo sean correctos
+app.use('/api/DispositivosS', dispositivosSRoutes);
+
+const dispositivosHRoutes = require('./routes/dispositivosH'); // Asegúrate de que la ruta y el nombre del archivo sean correctos
+app.use('/api/DispositivosH', dispositivosHRoutes);
+
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);

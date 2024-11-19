@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./home.css";
+import axios from "axios";
+import "./home.css"; // Asegúrate de tener este archivo para los estilos
 
-function Home({ searchTerm }) {
-  const [dataApple, setDataApple] = useState([]); // Datos de Apple
-  const [dataSamsung, setDataSamsung] = useState([]); // Datos de Samsung
+function TarjetasS() {
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -11,41 +11,21 @@ function Home({ searchTerm }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3500/api/dispositivos");
-        if (!response.ok) {
-          throw new Error("Error en la solicitud");
-        }
-        const result = await response.json();
-
-        // Filtrar dispositivos de Apple y Samsung
-        const appleDevices = result.filter((item) => item.marca === "Apple");
-        const samsungDevices = result.filter((item) => item.marca === "Samsung");
-
-        setDataApple(appleDevices);
-        setDataSamsung(samsungDevices);
+        const response = await axios.get("http://localhost:3500/api/dispositivosS");
+        // Filtrar solo los dispositivos de Samsung
+        const samsungDevices = response.data.filter((item) => item.marca === "Samsung");
+        setData(samsungDevices);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
-
-  // Filtrar datos según el término de búsqueda
-  const filteredAppleData = dataApple.filter((item) =>
-    item.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.marca.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
-  const filteredSamsungData = dataSamsung.filter((item) =>
-    item.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.marca.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleButtonClick = (item) => {
     setSelectedItem(item); // Mostrar detalles completos
@@ -57,35 +37,24 @@ function Home({ searchTerm }) {
 
   return (
     <div style={{ overflowY: 'scroll', maxHeight: '100vh', padding: '20px' }}>
-      <h2>Dispositivos Apple</h2>
-      <div className="row row-cols-1 row-cols-md-3 g-4">
-        {filteredAppleData.map((item) => (
-          <div className="col" key={item.id}>
-            <div className="card bg-light text-dark shadow-sm text-center">
-              <img src={item.imagen || "default_image.png"} className="card-img-top mx-auto" alt={item.modelo} style={{ maxWidth: '80%' }} />
-              <div className="card-body">
-                <h5 className="card-title">{item.modelo}</h5>
-                <p className="card-text"><strong>Marca:</strong> {item.marca}</p>
-                <div className="text-center mt-3">
-                  <button className="btn btn-info" onClick={() => handleButtonClick(item)}>Más información</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
       <h2>Dispositivos Samsung</h2>
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {filteredSamsungData.map((item) => (
+        {data.map((item) => (
           <div className="col" key={item.id}>
             <div className="card bg-light text-dark shadow-sm text-center">
-              <img src={item.imagen || "default_image.png"} className="card-img-top mx-auto" alt={item.modelo} style={{ maxWidth: '80%' }} />
+              <img
+                src={item.imagen || "https://via.placeholder.com/150"}
+                className="card-img-top mx-auto"
+                alt={item.modelo}
+                style={{ maxWidth: '80%' }}
+              />
               <div className="card-body">
                 <h5 className="card-title">{item.modelo}</h5>
                 <p className="card-text"><strong>Marca:</strong> {item.marca}</p>
                 <div className="text-center mt-3">
-                  <button className="btn btn-info" onClick={() => handleButtonClick(item)}>Más información</button>
+                  <button className="btn btn-info" onClick={() => handleButtonClick(item)}>
+                    Más información
+                  </button>
                 </div>
               </div>
             </div>
@@ -98,7 +67,11 @@ function Home({ searchTerm }) {
         <div className="full-screen-overlay" onClick={handleCloseFullScreen}>
           <div className="full-screen-content" onClick={(e) => e.stopPropagation()}>
             <h2>{selectedItem.modelo}</h2>
-            <img src={selectedItem.imagen} alt={selectedItem.modelo} style={{ maxWidth: '100%', maxHeight: '80vh' }} />
+            <img
+              src={selectedItem.imagen || "https://via.placeholder.com/150"}
+              alt={selectedItem.modelo}
+              style={{ maxWidth: '100%', maxHeight: '80vh' }}
+            />
             <p><strong>Marca:</strong> {selectedItem.marca}</p>
             <p><strong>Año:</strong> {selectedItem.año}</p>
             <p><strong>Características:</strong> {selectedItem.caracteristicas}</p>
@@ -111,4 +84,4 @@ function Home({ searchTerm }) {
   );
 }
 
-export default Home;
+export default TarjetasS;

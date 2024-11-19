@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./home.css";
 
-function Home({ searchTerm }) {
+function TarjetasH({ searchTerm }) {
   const [dataApple, setDataApple] = useState([]); // Datos de Apple
   const [dataSamsung, setDataSamsung] = useState([]); // Datos de Samsung
   const [dataHuawei, setDataHuawei] = useState([]); // Datos de Huawei
@@ -12,7 +12,7 @@ function Home({ searchTerm }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3500/api/dispositivos");
+        const response = await fetch("http://localhost:3500/api/dispositivosH");
         if (!response.ok) {
           throw new Error("Error en la solicitud");
         }
@@ -137,4 +137,4 @@ function Home({ searchTerm }) {
   );
 }
 
-export default Home;
+export default TarjetasH;
