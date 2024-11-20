@@ -3,16 +3,16 @@ const router = express.Router();
 
 // Arreglo lleno con 10 dispositivos Huawei
 let huaweiModels = [
-  { id: 1, modelo: 'Mate 60 Pro', marca: 'Huawei', año: 2024, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'mate_60_pro.jpg' },
-  { id: 2, modelo: 'P50 Pro', marca: 'Huawei', año: 2023, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'p50_pro.jpg' },
-  { id: 3, modelo: 'Nova 10', marca: 'Huawei', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'nova_10.jpg' },
-  { id: 4, modelo: 'Mate 40 Pro', marca: 'Huawei', año: 2021, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'mate_40_pro.jpg' },
-  { id: 5, modelo: 'P40 Lite', marca: 'Huawei', año: 2020, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'p40_lite.jpg' },
-  { id: 6, modelo: 'Mate 30 Pro', marca: 'Huawei', año: 2019, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'mate_30_pro.jpg' },
-  { id: 7, modelo: 'P30 Pro', marca: 'Huawei', año: 2019, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'p30_pro.jpg' },
-  { id: 8, modelo: 'Mate 20', marca: 'Huawei', año: 2018, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'mate_20.jpg' },
-  { id: 9, modelo: 'P20', marca: 'Huawei', año: 2017, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'p20.jpg' },
-  { id: 10, modelo: 'Mate 10 Pro', marca: 'Huawei', año: 2016, caracteristicas: '64GB, 4GB RAM, 4G', imagen: 'mate_10_pro.jpg' }
+  { id: 1, modelo: 'Mate 60 Pro', marca: 'Huawei', año: 2024, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'huawid1.png' },
+  { id: 2, modelo: 'P50 Pro', marca: 'Huawei', año: 2023, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'huawid2.png' },
+  { id: 3, modelo: 'Nova 10', marca: 'Huawei', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'huawid3.png' },
+  { id: 4, modelo: 'Mate 40 Pro', marca: 'Huawei', año: 2021, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'huawid4.png' },
+  { id: 5, modelo: 'P40 Lite', marca: 'Huawei', año: 2020, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'huawid5.png' },
+  { id: 6, modelo: 'Mate 30 Pro', marca: 'Huawei', año: 2019, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'huwid6.webp' },
+  { id: 7, modelo: 'P30 Pro', marca: 'Huawei', año: 2019, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'huawid7.png' },
+  { id: 8, modelo: 'Mate 20', marca: 'Huawei', año: 2018, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'huawid8.jpg' },
+  { id: 9, modelo: 'P20', marca: 'Huawei', año: 2017, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'huawid9.jpg' },
+  { id: 10, modelo: 'Mate 10 Pro', marca: 'Huawei', año: 2016, caracteristicas: '64GB, 4GB RAM, 4G', imagen: 'huawid10.jpg' }
 ];
 
 // Endpoint para obtener todos los dispositivos Huawei

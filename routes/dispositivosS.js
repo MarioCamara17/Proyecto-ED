@@ -3,16 +3,16 @@ const router = express.Router();
 
 // Arreglo lleno con 10 dispositivos Samsung
 let samsungModels = [
-  { id: 4, modelo: 'Galaxy S23 Ultra', marca: 'Samsung', año: 2024, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'galaxy_s23_ultra.jpg' },
-  { id: 5, modelo: 'Galaxy S22', marca: 'Samsung', año: 2023, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'galaxy_s22.jpg' },
-  { id: 6, modelo: 'Galaxy S21', marca: 'Samsung', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'galaxy_s21.jpg' },
-  { id: 7, modelo: 'Galaxy Note 20 Ultra', marca: 'Samsung', año: 2021, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'galaxy_note_20_ultra.jpg' },
-  { id: 8, modelo: 'Galaxy A72', marca: 'Samsung', año: 2021, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'galaxy_a72.jpg' },
-  { id: 9, modelo: 'Galaxy S20 FE', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'galaxy_s20_fe.jpg' },
-  { id: 10, modelo: 'Galaxy A52', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'galaxy_a52.jpg' },
-  { id: 11, modelo: 'Galaxy A50', marca: 'Samsung', año: 2019, caracteristicas: '64GB, 4GB RAM, 4G', imagen: 'galaxy_a50.jpg' },
-  { id: 12, modelo: 'Galaxy S10', marca: 'Samsung', año: 2018, caracteristicas: '256GB, 8GB RAM, 4G', imagen: 'galaxy_s10.jpg' },
-  { id: 13, modelo: 'Galaxy Note 9', marca: 'Samsung', año: 2017, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'galaxy_note_9.jpg' }
+  { id: 4, modelo: 'Galaxy S24 Ultra', marca: 'Samsung', año: 2024, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'Galaxy S24 ultra.png' },
+  { id: 5, modelo: 'Galaxy S22', marca: 'Samsung', año: 2023, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'sid2.webp' },
+  { id: 6, modelo: 'Galaxy S21', marca: 'Samsung', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'sid3.png' },
+  { id: 7, modelo: 'Galaxy Note 20 Ultra', marca: 'Samsung', año: 2021, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'sid4.png' },
+  { id: 8, modelo: 'Galaxy A72', marca: 'Samsung', año: 2021, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'sid5.png' },
+  { id: 9, modelo: 'Galaxy S20 FE', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'sid6.png' },
+  { id: 10, modelo: 'Galaxy A52', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'sid7.webp' },
+  { id: 11, modelo: 'Galaxy A50', marca: 'Samsung', año: 2019, caracteristicas: '64GB, 4GB RAM, 4G', imagen: 'sid8.webp' },
+  { id: 12, modelo: 'Galaxy S10', marca: 'Samsung', año: 2018, caracteristicas: '256GB, 8GB RAM, 4G', imagen: 'sid9.jpg' },
+  { id: 13, modelo: 'Galaxy Note 9', marca: 'Samsung', año: 2017, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'sid10.webp.crdownload' }
 ];
 
 // Endpoint para obtener todos los dispositivos Samsung

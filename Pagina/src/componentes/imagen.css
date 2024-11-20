@@ -1,0 +1,20 @@
+.device-image {
+    width: 200px; /* Ajusta el ancho */
+    height: 200px; /* Ajusta el alto */
+    object-fit: cover; /* Evita distorsión en las imágenes */
+    border-radius: 10px; /* Opcional: bordes redondeados */
+    margin: 10px; /* Espaciado entre imágenes */
+    border: 2px solid #ccc; /* Opcional: borde alrededor de las imágenes */
+}
+
+.device-card {
+    text-align: center; /* Centrar texto e imagen */
+    margin: 15px;
+    width: 220px; /* Espaciado uniforme */
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrar las tarjetas */
+    gap: 10px;
+}
