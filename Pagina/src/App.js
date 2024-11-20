@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Menu from './componentes/menu';
-import Home from './componentes/tarjetas';
+import Tarjetas from './componentes/tarjetas';
 import TarjetasS from './componentes/tarjetasS';
 import TarjetasH from './componentes/tarjetasH';
-import WelcomePage from './componentes/home';
+import Home from './componentes/home';
 import Tabla from './componentes/tabla';
 import TablaS from './componentes/tablaS';
 import TablaH from './componentes/tablaH';
@@ -19,7 +19,7 @@ function App() {
       <div className="container-fluid">
         <Routes>
           {/* Ruta de bienvenida */}
-          <Route path="/" element={<WelcomePage />} />
+          <Route path="/" element={<Home />} />
           
           {/* Ruta de inicio */}
           <Route path="/inicio" element={<Inicio />} />
@@ -53,7 +53,7 @@ function MenuWithCards({ searchTerm, setSearchTerm, data }) {
   return (
     <>
       <Menu setSearchTerm={setSearchTerm} />
-      <Home searchTerm={searchTerm} data={data} /> {/* Pasamos 'data' a las tarjetas */}
+      <Tarjetas searchTerm={searchTerm} data={data} /> {/* Pasamos 'data' a las tarjetas */}
     </>
   );
 }
