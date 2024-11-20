@@ -4,35 +4,57 @@ import axios from "axios";
 function Tabla({ data, setData }) {
   const [newDispositivo, setNewDispositivo] = useState({
     modelo: "",
-    marca: "Apple", // Fijamos la marca a Apple
+    marca: "Samsung", // Marca predeterminada
     año: "",
-    caracteristicas: ""
+    caracteristicas: "",
   });
   const [formErrors, setFormErrors] = useState({});
-  const [error, setError] = useState(null);  // Estado para manejar errores
+  const [error, setError] = useState(null);
 
-  // Obtener dispositivos de la API
+  // Fetching data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3500/api/dispositivos");
-        setData(response.data); // Guardamos los datos obtenidos de la API
+        const response = await axios.all([
+          axios.get("http://localhost:3500/api/DispositivosS"), // Samsung
+          axios.get("http://localhost:3500/api/DispositivosH"), // Huawei
+          axios.get("http://localhost:3500/api/Dispositivos"), // Apple
+        ]);
+
+        // Combining all data from Samsung, Huawei, and Apple
+        setData({
+          samsung: response[0].data,
+          huawei: response[1].data,
+          apple: response[2].data,
+        });
       } catch (err) {
         console.error("Error al obtener dispositivos: ", err);
         setError("Error al obtener dispositivos. Intenta más tarde.");
       }
     };
     fetchData();
-  }, [setData]); // Esto se ejecuta al cargar el componente
+  }, [setData]);
 
-  // Eliminar dispositivo
-  const handleEliminar = async (id) => {
+  // Function to handle deletion of a device
+  const handleEliminar = async (id, marca) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este dispositivo?")) {
       try {
-        const response = await axios.delete(`http://localhost:3500/api/dispositivos/${id}`);
+        let response;
+        // Check the marca and delete from the appropriate endpoint
+        if (marca === "samsung") {
+          response = await axios.delete(`http://localhost:3500/api/DispositivosS/${id}`);
+        } else if (marca === "huawei") {
+          response = await axios.delete(`http://localhost:3500/api/DispositivosH/${id}`);
+        } else if (marca === "apple") {
+          response = await axios.delete(`http://localhost:3500/api/Dispositivos/${id}`);
+        }
+
         if (response.status === 200) {
-          // Eliminamos el dispositivo de la vista si se eliminó correctamente
-          setData(data.filter((item) => item.id !== id));
+          // Remove device from the correct brand's array
+          setData({
+            ...data,
+            [marca]: data[marca].filter((item) => item.id !== id),
+          });
           alert("Dispositivo eliminado correctamente.");
         } else {
           throw new Error("No se pudo eliminar el dispositivo.");
@@ -44,24 +66,25 @@ function Tabla({ data, setData }) {
     }
   };
 
-  // Manejar el cambio de los campos del formulario
+  // Handling input changes for adding a new device
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewDispositivo({ ...newDispositivo, [name]: value });
     setFormErrors({ ...formErrors, [name]: "" });
   };
 
-  // Validar el formulario
+  // Validating form inputs
   const validateForm = (form) => {
     const errors = {};
     if (!form.modelo) errors.modelo = "El modelo es obligatorio.";
     if (!form.año) errors.año = "El año es obligatorio.";
     else if (isNaN(form.año)) errors.año = "El año debe ser un número.";
-    if (!form.caracteristicas) errors.caracteristicas = "Las características son obligatorias.";
+    if (!form.caracteristicas)
+      errors.caracteristicas = "Las características son obligatorias.";
     return errors;
   };
 
-  // Agregar un nuevo dispositivo
+  // Function to add a new device
   const handleAgregar = async () => {
     const errors = validateForm(newDispositivo);
     if (Object.keys(errors).length > 0) {
@@ -70,10 +93,21 @@ function Tabla({ data, setData }) {
     }
 
     try {
-      const response = await axios.post("http://localhost:3500/api/dispositivos", newDispositivo);
+      const response = await axios.post(
+        `http://localhost:3500/api/Dispositivos`,
+        newDispositivo
+      ); // Usar el endpoint para agregar dispositivos (general)
       if (response.status === 201) {
-        setData([...data, response.data]); // Agregar el nuevo dispositivo a la vista
-        setNewDispositivo({ modelo: "", marca: "Apple", año: "", caracteristicas: "" });
+        setData({
+          ...data,
+          [newDispositivo.marca]: [...data[newDispositivo.marca], response.data],
+        });
+        setNewDispositivo({
+          modelo: "",
+          marca: "Samsung", // Por defecto Samsung
+          año: "",
+          caracteristicas: "",
+        });
         setFormErrors({});
       } else {
         throw new Error("No se pudo agregar el dispositivo.");
@@ -85,7 +119,7 @@ function Tabla({ data, setData }) {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", maxHeight: "80vh", overflowY: "auto" }}>
       <h2>Mostrar Tabla de Dispositivos</h2>
 
       {error && <div className="alert alert-danger">{error}</div>}
@@ -121,10 +155,14 @@ function Tabla({ data, setData }) {
           <div className="invalid-feedback">{formErrors.caracteristicas}</div>
         </div>
         <div className="col-4 d-grid">
-          <button className="btn btn-primary" onClick={handleAgregar}>Agregar dispositivo</button>
+          <button className="btn btn-primary" onClick={handleAgregar}>
+            Agregar dispositivo
+          </button>
         </div>
       </div>
 
+      {/* Samsung Devices */}
+      <h3>Dispositivos Samsung</h3>
       <table className="table table-bordered table-striped">
         <thead>
           <tr>
@@ -135,7 +173,7 @@ function Tabla({ data, setData }) {
           </tr>
         </thead>
         <tbody>
-          {data.map((dispositivo) => (
+          {data.samsung && data.samsung.map((dispositivo) => (
             <tr key={dispositivo.id}>
               <td>{dispositivo.modelo}</td>
               <td>{dispositivo.año}</td>
@@ -143,7 +181,67 @@ function Tabla({ data, setData }) {
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => handleEliminar(dispositivo.id)}
+                  onClick={() => handleEliminar(dispositivo.id, "samsung")}
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Huawei Devices */}
+      <h3>Dispositivos Huawei</h3>
+      <table className="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Modelo</th>
+            <th>Año</th>
+            <th>Características</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.huawei && data.huawei.map((dispositivo) => (
+            <tr key={dispositivo.id}>
+              <td>{dispositivo.modelo}</td>
+              <td>{dispositivo.año}</td>
+              <td>{dispositivo.caracteristicas}</td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleEliminar(dispositivo.id, "huawei")}
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Apple Devices */}
+      <h3>Dispositivos Apple</h3>
+      <table className="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Modelo</th>
+            <th>Año</th>
+            <th>Características</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.apple && data.apple.map((dispositivo) => (
+            <tr key={dispositivo.id}>
+              <td>{dispositivo.modelo}</td>
+              <td>{dispositivo.año}</td>
+              <td>{dispositivo.caracteristicas}</td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleEliminar(dispositivo.id, "apple")}
                 >
                   Eliminar
                 </button>
