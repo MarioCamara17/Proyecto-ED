@@ -83,6 +83,9 @@ function TarjetasH() {
               <p><strong>Marca:</strong> {selectedItem.marca}</p>
               <p><strong>Año:</strong> {selectedItem.año}</p>
               <p><strong>Características:</strong> {selectedItem.caracteristicas}</p>
+              <p>
+              <strong>Descripción:</strong> {selectedItem.funcionalidad}
+            </p>
               <button className="btn btn-secondary" onClick={handleCloseFullScreen}>Cerrar</button>
             </div>
           </div>
