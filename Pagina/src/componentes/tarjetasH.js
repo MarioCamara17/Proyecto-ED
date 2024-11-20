@@ -3,15 +3,8 @@ import axios from "axios";
 import Menu from "./menu"; // Asegúrate de que la ruta sea correcta
 import "./home.css"; // Asegúrate de tener este archivo para los estilos
 
-<<<<<<< HEAD
-function TarjetasH({ searchTerm }) {
-  const [dataApple, setDataApple] = useState([]); // Datos de Apple
-  const [dataSamsung, setDataSamsung] = useState([]); // Datos de Samsung
-  const [dataHuawei, setDataHuawei] = useState([]); // Datos de Huawei
-=======
 function TarjetasH() {
   const [data, setData] = useState([]);
->>>>>>> 0b81af831f0bebe0a3a7740a0fc4d5ad84a491d9
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -20,28 +13,11 @@ function TarjetasH() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-<<<<<<< HEAD
-        const response = await fetch("http://localhost:3500/api/dispositivosH");
-        if (!response.ok) {
-          throw new Error("Error en la solicitud");
-        }
-        const result = await response.json();
-
-        // Filtrar dispositivos de Apple, Samsung y Huawei
-        const appleDevices = result.filter((item) => item.marca === "Apple");
-        const samsungDevices = result.filter((item) => item.marca === "Samsung");
-        const huaweiDevices = result.filter((item) => item.marca === "Huawei");
-
-        setDataApple(appleDevices);
-        setDataSamsung(samsungDevices);
-        setDataHuawei(huaweiDevices);
-=======
         const response = await axios.get("http://localhost:3500/api/dispositivosH");
         
         // Filtrar dispositivos de Huawei
         const huaweiDevices = response.data.filter((item) => item.marca === "Huawei");
         setData(huaweiDevices);
->>>>>>> 0b81af831f0bebe0a3a7740a0fc4d5ad84a491d9
       } catch (err) {
         setError(err.message);
       } finally {

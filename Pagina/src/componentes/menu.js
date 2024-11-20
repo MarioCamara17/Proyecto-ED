@@ -26,7 +26,7 @@ function Menu({ setSearchTerm }) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/home">MENÚ</Link>
+              <Link className="nav-link active" aria-current="page" to="/inicio">MENÚ</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/tabla">TABLA DE DISPOSITIVOS</Link>
