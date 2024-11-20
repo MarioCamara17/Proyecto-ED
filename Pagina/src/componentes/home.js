@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './fondo.css'
 
-function WelcomePage() {
+function Home() {
   const navigate = useNavigate();
 
   const goToInicio = () => {
@@ -17,7 +17,7 @@ function WelcomePage() {
   );
 }
 
-export default WelcomePage;
+export default Home;
 
 
 

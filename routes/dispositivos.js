@@ -3,17 +3,18 @@ const router = express.Router();
 
 // Arreglo lleno con 10 dispositivos de iPhone
 let iphoneModels = [
-  { id: 4, modelo: 'iPhone 14', marca: 'Apple', año: 2024, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_14.jpg' },
-  { id: 5, modelo: 'iPhone 13 Pro', marca: 'Apple', año: 2023, caracteristicas: '512GB, 8GB RAM, 5G', imagen: 'iphone_13_pro.jpg' },
-  { id: 6, modelo: 'iPhone 13', marca: 'Apple', año: 2022, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'iphone_13.jpg' },
-  { id: 7, modelo: 'iPhone 12 Pro Max', marca: 'Apple', año: 2021, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_12_pro_max.jpg' },
-  { id: 8, modelo: 'iPhone 12', marca: 'Apple', año: 2021, caracteristicas: '128GB, 4GB RAM, 5G', imagen: 'iphone_12.jpg' },
-  { id: 9, modelo: 'iPhone 11 Pro', marca: 'Apple', año: 2020, caracteristicas: '256GB, 4GB RAM, 4G', imagen: 'iphone_11_pro.jpg' },
-  { id: 10, modelo: 'iPhone 11', marca: 'Apple', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'iphone_11.jpg' },
-  { id: 11, modelo: 'iPhone XR', marca: 'Apple', año: 2019, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_xr.jpg' },
-  { id: 12, modelo: 'iPhone X', marca: 'Apple', año: 2018, caracteristicas: '256GB, 3GB RAM, 4G', imagen: 'iphone_x.jpg' },
-  { id: 13, modelo: 'iPhone 8 Plus', marca: 'Apple', año: 2017, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_8_plus.jpg' }
+  { id: 4, modelo: 'iPhone 14', marca: 'Apple', año: 2024, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_14.jpg', funcionalidad: 'Ideal para fotografía profesional y alto rendimiento.' },
+  { id: 5, modelo: 'iPhone 13 Pro', marca: 'Apple', año: 2023, caracteristicas: '512GB, 8GB RAM, 5G', imagen: 'iphone_13_pro.jpg', funcionalidad: 'Diseñado para multitareas y gaming extremo.' },
+  { id: 6, modelo: 'iPhone 13', marca: 'Apple', año: 2022, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'iphone_13.jpg', funcionalidad: 'Perfecto para uso diario con excelente duración de batería.' },
+  { id: 7, modelo: 'iPhone 12 Pro Max', marca: 'Apple', año: 2021, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'iphone_12_pro_max.jpg', funcionalidad: 'Pantalla grande ideal para edición de videos.' },
+  { id: 8, modelo: 'iPhone 12', marca: 'Apple', año: 2021, caracteristicas: '128GB, 4GB RAM, 5G', imagen: 'iphone_12.jpg', funcionalidad: 'Diseño compacto con tecnología 5G.' },
+  { id: 9, modelo: 'iPhone 11 Pro', marca: 'Apple', año: 2020, caracteristicas: '256GB, 4GB RAM, 4G', imagen: 'iphone_11_pro.jpg', funcionalidad: 'Cámara profesional y gran potencia.' },
+  { id: 10, modelo: 'iPhone 11', marca: 'Apple', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'iphone_11.jpg', funcionalidad: 'Buen rendimiento a precio accesible.' },
+  { id: 11, modelo: 'iPhone XR', marca: 'Apple', año: 2019, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_xr.jpg', funcionalidad: 'Colores vivos y diseño único.' },
+  { id: 12, modelo: 'iPhone X', marca: 'Apple', año: 2018, caracteristicas: '256GB, 3GB RAM, 4G', imagen: 'iphone_x.jpg', funcionalidad: 'Primer iPhone con Face ID.' },
+  { id: 13, modelo: 'iPhone 8 Plus', marca: 'Apple', año: 2017, caracteristicas: '64GB, 3GB RAM, 4G', imagen: 'iphone_8_plus.jpg', funcionalidad: 'Excelente para fotografía clásica.' }
 ];
+
 
 // Endpoint para obtener todos los dispositivos de iPhone
 router.get('/', (req, res) => {
