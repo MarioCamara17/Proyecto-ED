@@ -24,8 +24,13 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const { modelo, marca, año, caracteristicas, imagen } = req.body;
 
+  // Validación básica de datos
   if (!modelo || !marca || !año || !caracteristicas) {
     return res.status(400).json({ error: 'Faltan datos necesarios para agregar el dispositivo.' });
+  }
+
+  if (isNaN(año)) {
+    return res.status(400).json({ error: 'El año debe ser un número.' });
   }
 
   const newDispositivo = {
@@ -44,7 +49,7 @@ router.post('/', (req, res) => {
 // Endpoint para eliminar un dispositivo Samsung por su ID
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  
+
   // Buscar el dispositivo por ID
   const index = samsungModels.findIndex((dispositivo) => dispositivo.id === parseInt(id));
 
