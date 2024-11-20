@@ -9,7 +9,7 @@ function Inicio() {
         <div className="col-md-4 mb-4">
           <div className="card" style={{ width: '100%', borderRadius: '10px' }}>
             <img 
-              src="https://via.placeholder.com/150" 
+              src="logosamsung.png" 
               className="card-img-top" 
               alt="Dispositivo Samsung"
               style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
@@ -30,7 +30,7 @@ function Inicio() {
         <div className="col-md-4 mb-4">
           <div className="card" style={{ width: '100%', borderRadius: '10px' }}>
             <img 
-              src="https://via.placeholder.com/150" 
+              src="apple.png" 
               className="card-img-top" 
               alt="Dispositivo Apple"
               style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
@@ -51,7 +51,7 @@ function Inicio() {
         <div className="col-md-4 mb-4">
           <div className="card" style={{ width: '100%', borderRadius: '10px' }}>
             <img 
-              src="https://via.placeholder.com/150" 
+              src="logohuawei.png" 
               className="card-img-top" 
               alt="Dispositivo Huawei"
               style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
