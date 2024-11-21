@@ -7,6 +7,7 @@ function Tabla({ data, setData }) {
     marca: "Samsung", // Marca predeterminada
     año: "",
     caracteristicas: "",
+    descripcion: "", // Nuevo campo de descripción
   });
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState(null);
@@ -81,6 +82,8 @@ function Tabla({ data, setData }) {
     else if (isNaN(form.año)) errors.año = "El año debe ser un número.";
     if (!form.caracteristicas)
       errors.caracteristicas = "Las características son obligatorias.";
+    if (!form.descripcion)
+      errors.descripcion = "La descripción es obligatoria."; // Validación para la descripción
     return errors;
   };
 
@@ -93,21 +96,29 @@ function Tabla({ data, setData }) {
     }
 
     try {
+      // Send the data to the backend (endpoint para agregar dispositivos)
       const response = await axios.post(
-        `http://localhost:3500/api/Dispositivos`,
+        `http://localhost:3500/api/Dispositivos`, // Usar el endpoint para agregar dispositivos (general)
         newDispositivo
-      ); // Usar el endpoint para agregar dispositivos (general)
+      );
+      
       if (response.status === 201) {
+        // Add the new device to the corresponding brand's array
         setData({
           ...data,
           [newDispositivo.marca]: [...data[newDispositivo.marca], response.data],
         });
+        
+        // Reset form after adding
         setNewDispositivo({
           modelo: "",
           marca: "Samsung", // Por defecto Samsung
           año: "",
           caracteristicas: "",
+          descripcion: "", // Reseteamos también el campo de descripción
         });
+        
+        // Clear form errors
         setFormErrors({});
       } else {
         throw new Error("No se pudo agregar el dispositivo.");
@@ -153,6 +164,24 @@ function Tabla({ data, setData }) {
             className={`form-control mb-2 ${formErrors.caracteristicas ? "is-invalid" : ""}`}
           />
           <div className="invalid-feedback">{formErrors.caracteristicas}</div>
+          <textarea
+            name="descripcion"
+            placeholder="Descripción"
+            value={newDispositivo.descripcion}
+            onChange={handleInputChange}
+            className={`form-control mb-2 ${formErrors.descripcion ? "is-invalid" : ""}`}
+          />
+          <div className="invalid-feedback">{formErrors.descripcion}</div>
+          <select
+            name="marca"
+            value={newDispositivo.marca}
+            onChange={handleInputChange}
+            className="form-control mb-2"
+          >
+            <option value="Samsung">Samsung</option>
+            <option value="Huawei">Huawei</option>
+            <option value="Apple">Apple</option>
+          </select>
         </div>
         <div className="col-4 d-grid">
           <button className="btn btn-primary" onClick={handleAgregar}>
@@ -161,97 +190,44 @@ function Tabla({ data, setData }) {
         </div>
       </div>
 
-      {/* Samsung Devices */}
-      <h3>Dispositivos Samsung</h3>
-      <table className="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Características</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.samsung && data.samsung.map((dispositivo) => (
-            <tr key={dispositivo.id}>
-              <td>{dispositivo.modelo}</td>
-              <td>{dispositivo.año}</td>
-              <td>{dispositivo.caracteristicas}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleEliminar(dispositivo.id, "samsung")}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Huawei Devices */}
-      <h3>Dispositivos Huawei</h3>
-      <table className="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Características</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.huawei && data.huawei.map((dispositivo) => (
-            <tr key={dispositivo.id}>
-              <td>{dispositivo.modelo}</td>
-              <td>{dispositivo.año}</td>
-              <td>{dispositivo.caracteristicas}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleEliminar(dispositivo.id, "huawei")}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Apple Devices */}
-      <h3>Dispositivos Apple</h3>
-      <table className="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Características</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.apple && data.apple.map((dispositivo) => (
-            <tr key={dispositivo.id}>
-              <td>{dispositivo.modelo}</td>
-              <td>{dispositivo.año}</td>
-              <td>{dispositivo.caracteristicas}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleEliminar(dispositivo.id, "apple")}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Render devices for each brand */}
+      {['samsung', 'huawei', 'apple'].map((marca) => (
+        <div key={marca}>
+          <h3>Dispositivos {marca.charAt(0).toUpperCase() + marca.slice(1)}</h3>
+          <table className="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Características</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data[marca] && data[marca].map((dispositivo) => (
+                <tr key={dispositivo.id}>
+                  <td>{dispositivo.modelo}</td>
+                  <td>{dispositivo.año}</td>
+                  <td>{dispositivo.caracteristicas}</td>
+                  <td>{dispositivo.descripcion}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleEliminar(dispositivo.id, marca)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
     </div>
   );
 }
 
 export default Tabla;
+
