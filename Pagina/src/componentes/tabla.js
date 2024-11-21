@@ -83,9 +83,11 @@ function Tabla({ data, setData }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:3500/api/Dispositivos`, // Endpoint para agregar dispositivos
+        `http://localhost:3500/api/dispositivosS/`, // Endpoint para agregar dispositivos
         { ...newDispositivo, marca }
       );
+
+      
 
       if (response.status === 201) {
         // Add the new device to the corresponding brand's array
