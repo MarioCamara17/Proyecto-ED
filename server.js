@@ -19,6 +19,8 @@ app.use('/api/DispositivosS', dispositivosSRoutes);
 const dispositivosHRoutes = require('./routes/dispositivosH');
 app.use('/api/DispositivosH', dispositivosHRoutes);
 
+
+
 // Start the server
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);

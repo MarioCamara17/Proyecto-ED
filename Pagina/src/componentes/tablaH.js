@@ -10,7 +10,7 @@ function TablaH() {
     modelo: "",
     marca: "Huawei", // Fijamos la marca a Huawei
     año: "",
-    caracteristicas: ""
+    caracteristicas: "",
   });
   const [formErrors, setFormErrors] = useState({});
 
@@ -22,7 +22,8 @@ function TablaH() {
         const huaweiDevices = response.data.filter((item) => item.marca === "Huawei");
         setData(huaweiDevices);
       } catch (err) {
-        setError(err.message);
+        console.error("Error al obtener datos:", err.message);
+        setError(`Error al cargar dispositivos: ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -32,17 +33,22 @@ function TablaH() {
 
   const handleAgregar = async () => {
     const errors = validateForm(newDispositivo);
+    console.log("Errores de validación:", errors);
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
 
+    console.log("Datos a enviar:", newDispositivo);
     try {
       const response = await axios.post("http://localhost:3500/api/dispositivosH", newDispositivo);
-      setData([...data, response.data]);
+      console.log("Respuesta del servidor:", response.data);
+      const newDevice = { ...response.data, id: Date.now() }; // ID temporal para pruebas
+      setData([...data, newDevice]);
       setNewDispositivo({ modelo: "", marca: "Huawei", año: "", caracteristicas: "" });
       setFormErrors({});
     } catch (err) {
+      console.error("Error al agregar dispositivo:", err.message);
       setError(`Error al agregar dispositivo: ${err.message}`);
     }
   };
@@ -53,6 +59,7 @@ function TablaH() {
         await axios.delete(`http://localhost:3500/api/dispositivosH/${id}`);
         setData(data.filter((item) => item.id !== id));
       } catch (err) {
+        console.error("Error al eliminar dispositivo:", err.message);
         setError(`Error al eliminar dispositivo: ${err.message}`);
       }
     }
