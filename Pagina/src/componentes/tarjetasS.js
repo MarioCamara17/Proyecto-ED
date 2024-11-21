@@ -8,13 +8,16 @@ function TarjetasS() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3500/api/dispositivosS");
-        setData(response.data);
+        
+        // Filtrar dispositivos de Samsung
+        const samsungDevices = response.data.filter((item) => item.marca === "Samsung");
+        setData(samsungDevices);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -24,6 +27,7 @@ function TarjetasS() {
     fetchData();
   }, []);
 
+  // Filtrar datos por término de búsqueda
   const filteredData = data.filter((item) =>
     item.modelo.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -41,7 +45,9 @@ function TarjetasS() {
 
   return (
     <div>
+      {/* Importa y coloca el componente Menu aquí */}
       <Menu setSearchTerm={setSearchTerm} />
+
       <div style={{ overflowY: 'scroll', maxHeight: '100vh', padding: '20px' }}>
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {filteredData.map((item) => (
@@ -79,6 +85,9 @@ function TarjetasS() {
               <p><strong>Marca:</strong> {selectedItem.marca}</p>
               <p><strong>Año:</strong> {selectedItem.año}</p>
               <p><strong>Características:</strong> {selectedItem.caracteristicas}</p>
+              <p>
+                <strong>Descripción:</strong> {selectedItem.funcionalidad}
+              </p>
               <button className="btn btn-secondary" onClick={handleCloseFullScreen}>Cerrar</button>
             </div>
           </div>

@@ -6,8 +6,7 @@ import TarjetasS from './componentes/tarjetasS';
 import TarjetasH from './componentes/tarjetasH';
 import Home from './componentes/home';
 import Tabla from './componentes/tabla';
-import TablaS from './componentes/tablaS';
-import TablaH from './componentes/tablaH';
+
 import Inicio from './componentes/Inicio'; // Importamos el componente Inicio
 
 function App() {
@@ -37,8 +36,8 @@ function App() {
           />
 
           {/* Rutas para tablas específicas de cada marca */}
-          <Route path="/tabla-samsung" element={<TablaS />} />
-          <Route path="/tabla-huawei" element={<TablaH />} />
+          <Route path="/tabla-samsung" element={<Tabla />} />
+          <Route path="/tabla-huawei" element={<Tabla />} />
 
           {/* Rutas para tarjetas específicas de cada marca */}
           <Route path="tarjetasS" element={<TarjetasS />} />

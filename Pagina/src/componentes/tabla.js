@@ -2,12 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function Tabla({ data, setData }) {
-  const [newDispositivo, setNewDispositivo] = useState({
-    modelo: "",
-    marca: "Samsung", // Marca predeterminada
-    año: "",
-    caracteristicas: "",
-  });
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState(null);
 
@@ -66,13 +60,6 @@ function Tabla({ data, setData }) {
     }
   };
 
-  // Handling input changes for adding a new device
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewDispositivo({ ...newDispositivo, [name]: value });
-    setFormErrors({ ...formErrors, [name]: "" });
-  };
-
   // Validating form inputs
   const validateForm = (form) => {
     const errors = {};
@@ -81,11 +68,13 @@ function Tabla({ data, setData }) {
     else if (isNaN(form.año)) errors.año = "El año debe ser un número.";
     if (!form.caracteristicas)
       errors.caracteristicas = "Las características son obligatorias.";
+    if (!form.descripcion)
+      errors.descripcion = "La descripción es obligatoria.";
     return errors;
   };
 
-  // Function to add a new device
-  const handleAgregar = async () => {
+  // Function to handle adding a new device
+  const handleAgregar = async (marca, newDispositivo) => {
     const errors = validateForm(newDispositivo);
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -94,21 +83,17 @@ function Tabla({ data, setData }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:3500/api/Dispositivos`,
-        newDispositivo
-      ); // Usar el endpoint para agregar dispositivos (general)
+        `http://localhost:3500/api/Dispositivos`, // Endpoint para agregar dispositivos
+        { ...newDispositivo, marca }
+      );
+
       if (response.status === 201) {
+        // Add the new device to the corresponding brand's array
         setData({
           ...data,
-          [newDispositivo.marca]: [...data[newDispositivo.marca], response.data],
+          [marca]: [...data[marca], response.data],
         });
-        setNewDispositivo({
-          modelo: "",
-          marca: "Samsung", // Por defecto Samsung
-          año: "",
-          caracteristicas: "",
-        });
-        setFormErrors({});
+        alert("Dispositivo agregado correctamente.");
       } else {
         throw new Error("No se pudo agregar el dispositivo.");
       }
@@ -120,138 +105,119 @@ function Tabla({ data, setData }) {
 
   return (
     <div style={{ padding: "20px", maxHeight: "80vh", overflowY: "auto" }}>
-      <h2>Mostrar Tabla de Dispositivos</h2>
 
       {error && <div className="alert alert-danger">{error}</div>}
 
-      <div className="row mb-3">
-        <div className="col-8">
-          <input
-            type="text"
-            name="modelo"
-            placeholder="Modelo"
-            value={newDispositivo.modelo}
-            onChange={handleInputChange}
-            className={`form-control mb-2 ${formErrors.modelo ? "is-invalid" : ""}`}
-          />
-          <div className="invalid-feedback">{formErrors.modelo}</div>
-          <input
-            type="number"
-            name="año"
-            placeholder="Año"
-            value={newDispositivo.año}
-            onChange={handleInputChange}
-            className={`form-control mb-2 ${formErrors.año ? "is-invalid" : ""}`}
-          />
-          <div className="invalid-feedback">{formErrors.año}</div>
-          <input
-            type="text"
-            name="caracteristicas"
-            placeholder="Características"
-            value={newDispositivo.caracteristicas}
-            onChange={handleInputChange}
-            className={`form-control mb-2 ${formErrors.caracteristicas ? "is-invalid" : ""}`}
-          />
-          <div className="invalid-feedback">{formErrors.caracteristicas}</div>
+      {/* Render devices for each brand */}
+      {["samsung", "huawei", "apple"].map((marca) => (
+        <div key={marca}>
+          <h1>Dispositivos {marca.charAt(0).toUpperCase() + marca.slice(1)}</h1>
+
+          {/* Formulario para agregar dispositivos específicos a la marca */}
+          <div className="mb-3">
+            <h2>Agregar nuevo dispositivo a {marca.charAt(0).toUpperCase() + marca.slice(1)}</h2>
+            <FormularioAgregar
+              marca={marca}
+              onAgregar={(nuevoDispositivo) => handleAgregar(marca, nuevoDispositivo)}
+            />
+          </div>
+
+          {/* Tabla de dispositivos */}
+          <table className="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Características</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data[marca] && data[marca].map((dispositivo) => (
+                <tr key={dispositivo.id}>
+                  <td>{dispositivo.modelo}</td>
+                  <td>{dispositivo.año}</td>
+                  <td>{dispositivo.caracteristicas}</td>
+                  <td>{dispositivo.descripcion}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleEliminar(dispositivo.id, marca)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div className="col-4 d-grid">
-          <button className="btn btn-primary" onClick={handleAgregar}>
-            Agregar dispositivo
-          </button>
-        </div>
+      ))}
+    </div>
+  );
+}
+
+function FormularioAgregar({ marca, onAgregar }) {
+  const [form, setForm] = useState({
+    modelo: "",
+    año: "",
+    caracteristicas: "",
+    descripcion: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  return (
+    <div className="row">
+      <div className="col-8">
+        <input
+          type="text"
+          name="modelo"
+          placeholder="Modelo"
+          value={form.modelo}
+          onChange={handleInputChange}
+          className="form-control mb-2"
+        />
+        <input
+          type="number"
+          name="año"
+          placeholder="Año"
+          value={form.año}
+          onChange={handleInputChange}
+          className="form-control mb-2"
+        />
+        <input
+          type="text"
+          name="caracteristicas"
+          placeholder="Características"
+          value={form.caracteristicas}
+          onChange={handleInputChange}
+          className="form-control mb-2"
+        />
+        <textarea
+          name="descripcion"
+          placeholder="Descripción"
+          value={form.descripcion}
+          onChange={handleInputChange}
+          className="form-control mb-2"
+        />
       </div>
-
-      {/* Samsung Devices */}
-      <h3>Dispositivos Samsung</h3>
-      <table className="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Características</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.samsung && data.samsung.map((dispositivo) => (
-            <tr key={dispositivo.id}>
-              <td>{dispositivo.modelo}</td>
-              <td>{dispositivo.año}</td>
-              <td>{dispositivo.caracteristicas}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleEliminar(dispositivo.id, "samsung")}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Huawei Devices */}
-      <h3>Dispositivos Huawei</h3>
-      <table className="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Características</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.huawei && data.huawei.map((dispositivo) => (
-            <tr key={dispositivo.id}>
-              <td>{dispositivo.modelo}</td>
-              <td>{dispositivo.año}</td>
-              <td>{dispositivo.caracteristicas}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleEliminar(dispositivo.id, "huawei")}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Apple Devices */}
-      <h3>Dispositivos Apple</h3>
-      <table className="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Características</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.apple && data.apple.map((dispositivo) => (
-            <tr key={dispositivo.id}>
-              <td>{dispositivo.modelo}</td>
-              <td>{dispositivo.año}</td>
-              <td>{dispositivo.caracteristicas}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleEliminar(dispositivo.id, "apple")}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="col-4">
+        <button
+          className="btn btn-primary"
+          onClick={() => onAgregar({ ...form })}
+        >
+          Agregar
+        </button>
+      </div>
     </div>
   );
 }
 
 export default Tabla;
+
+
