@@ -60,4 +60,4 @@ router.delete('/:id', (req, res) => {
   res.status(200).json({ message: 'Dispositivo eliminado correctamente' }); // Confirmamos la eliminación
 });
 
-module.exports = router;
+module.exports = router; 
