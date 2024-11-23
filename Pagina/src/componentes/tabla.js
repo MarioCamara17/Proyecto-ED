@@ -220,6 +220,6 @@ function FormularioAgregar({ marca, onAgregar }) {
   );
 }
 
-export default Tabla;
+export default Tabla; 
 
 
