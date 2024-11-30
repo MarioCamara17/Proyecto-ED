@@ -12,7 +12,7 @@ let samsungModels = [
   { id: 10, modelo: 'Galaxy A52', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 4GB RAM, 4G', imagen: 'sid7.webp', funcionalidad: 'Compacto y accesible con excelentes cámaras.' },
   { id: 11, modelo: 'Galaxy A50', marca: 'Samsung', año: 2019, caracteristicas: '64GB, 4GB RAM, 4G', imagen: 'sid8.webp', funcionalidad: 'Ideal para usuarios que buscan buen diseño y precio.' },
   { id: 12, modelo: 'Galaxy S10', marca: 'Samsung', año: 2018, caracteristicas: '256GB, 8GB RAM, 4G', imagen: 'sid9.jpg', funcionalidad: 'Innovador en su tiempo con una gran pantalla.' },
-  { id: 13, modelo: 'Galaxy Note 9', marca: 'Samsung', año: 2017, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'sid10.webp.crdownload', funcionalidad: 'Confiable y con excelente capacidad para productividad.' }
+  { id: 13, modelo: 'Galaxy Note 9', marca: 'Samsung', año: 2017, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'note9.jpg', funcionalidad: 'Confiable y con excelente capacidad para productividad.' }
 ];
 
 // Endpoint para obtener todos los dispositivos Samsung
@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
   }
 
   const newDispositivo = {
-    id: samsungModels.length + 4, // Asegúrate de continuar con el id después de los existentes
+    id: samsungModels.length + 4, //  continuar con el id después de los existentes
     modelo,
     marca,
     año,

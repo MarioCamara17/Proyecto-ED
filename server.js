@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Importe de rutas 
+// importar rutas
 const dispositivosRoutes = require('./routes/dispositivos');
 app.use('/api/Dispositivos', dispositivosRoutes);
 
@@ -19,7 +19,9 @@ app.use('/api/DispositivosS', dispositivosSRoutes);
 const dispositivosHRoutes = require('./routes/dispositivosH');
 app.use('/api/DispositivosH', dispositivosHRoutes);
 
-// correr el servidor
+
+
+// iniciar server
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
