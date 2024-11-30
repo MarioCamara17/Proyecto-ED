@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Importe de rutas 
+// Import routes
 const dispositivosRoutes = require('./routes/dispositivos');
 app.use('/api/Dispositivos', dispositivosRoutes);
 
@@ -19,8 +19,6 @@ app.use('/api/DispositivosS', dispositivosSRoutes);
 const dispositivosHRoutes = require('./routes/dispositivosH');
 app.use('/api/DispositivosH', dispositivosHRoutes);
 
-// correr el servidor
-=======
 
 
 // Start the server
