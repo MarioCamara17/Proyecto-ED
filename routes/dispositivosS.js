@@ -5,7 +5,7 @@ const router = express.Router();
 let samsungModels = [
   { id: 4, modelo: 'Galaxy S24 Ultra', marca: 'Samsung', año: 2024, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'Galaxy S24 ultra.png', funcionalidad: 'Ideal para creadores de contenido y productividad avanzada.' },
   { id: 5, modelo: 'Galaxy S22', marca: 'Samsung', año: 2023, caracteristicas: '256GB, 8GB RAM, 5G', imagen: 'sid2.webp', funcionalidad: 'Diseñado para gaming y multitarea eficiente.' },
-  { id: 6, modelo: 'Galaxy S21', marca: 'Samsung', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'sid3.png', funcionalidad: 'Perfecto para uso diario con un diseño elegante.' },
+  { id: 6, modelo: 'Galaxy S21 Ultra', marca: 'Samsung', año: 2022, caracteristicas: '128GB, 8GB RAM, 5G', imagen: 'sid3.png', funcionalidad: 'Perfecto para uso diario con un diseño elegante.' },
   { id: 7, modelo: 'Galaxy Note 20 Ultra', marca: 'Samsung', año: 2021, caracteristicas: '512GB, 12GB RAM, 5G', imagen: 'sid4.png', funcionalidad: 'Pantalla grande y lápiz S Pen para productividad máxima.' },
   { id: 8, modelo: 'Galaxy A72', marca: 'Samsung', año: 2021, caracteristicas: '128GB, 6GB RAM, 4G', imagen: 'sid5.png', funcionalidad: 'Gran batería y rendimiento ideal para entretenimiento.' },
   { id: 9, modelo: 'Galaxy S20 FE', marca: 'Samsung', año: 2020, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'sid6.png', funcionalidad: 'Balance perfecto entre precio y rendimiento.' },

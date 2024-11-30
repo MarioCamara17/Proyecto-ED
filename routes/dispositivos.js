@@ -4,7 +4,7 @@ const router = express.Router();
 // Arreglo lleno con 10 dispositivos de iPhone
 let iphoneModels = [
   
-  { id: 4, modelo: 'iPhone 14', marca: 'Apple', año: 2024, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'ipid1.png', funcionalidad: 'Ideal para fotografía profesional y alto rendimiento.' },
+  { id: 4, modelo: 'iPhone 14', marca: 'Apple', año: 2024, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'Iphone 14.png', funcionalidad: 'Ideal para fotografía profesional y alto rendimiento.' },
   { id: 5, modelo: 'iPhone 13 Pro', marca: 'Apple', año: 2023, caracteristicas: '512GB, 8GB RAM, 5G', imagen: 'ipid2.png', funcionalidad: 'Diseñado para multitareas y gaming extremo.' },
   { id: 6, modelo: 'iPhone 13', marca: 'Apple', año: 2022, caracteristicas: '128GB, 6GB RAM, 5G', imagen: 'ipid3.png', funcionalidad: 'Perfecto para uso diario con excelente duración de batería.' },
   { id: 7, modelo: 'iPhone 12 Pro Max', marca: 'Apple', año: 2021, caracteristicas: '256GB, 6GB RAM, 5G', imagen: 'ipid4.png', funcionalidad: 'Pantalla grande ideal para edición de videos.' },
@@ -60,4 +60,4 @@ router.delete('/:id', (req, res) => {
   res.status(200).json({ message: 'Dispositivo eliminado correctamente' }); // Confirmamos la eliminación
 });
 
-module.exports = router;
+module.exports = router; 
