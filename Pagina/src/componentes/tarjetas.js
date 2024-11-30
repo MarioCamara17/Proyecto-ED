@@ -13,8 +13,9 @@ function Tarjetas({ searchTerm }) {
       try {
         const response = await axios.get("http://localhost:3500/api/dispositivos");
         const result = response.data;
-        const appleDevices = result.filter((item) => item.marca === "Apple");
-        setData(appleDevices);
+       // const appleDevices = result.filter((item) => item.marca === "Apple");
+        setData(result);
+        console.log(response);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -44,7 +45,7 @@ function Tarjetas({ searchTerm }) {
   return (
     <div style={{ overflowY: "scroll", maxHeight: "100vh", padding: "20px" }}>
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {filteredData.map((item, index) => (
+        {data.map((item, index) => (
           <div className="col" key={item.id}>
             <div className="card bg-light text-dark shadow-sm text-center">
               <img

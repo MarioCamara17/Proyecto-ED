@@ -29,12 +29,12 @@ function Tabla({ data, setData }) {
     fetchData();
   }, [setData]);
 
-  // Function to handle deletion of a device
+  // Funcion para eliminar
   const handleEliminar = async (id, marca) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este dispositivo?")) {
       try {
         let response;
-        // Check the marca and delete from the appropriate endpoint
+        // endopoint para eliminar
         if (marca === "samsung") {
           response = await axios.delete(`http://localhost:3500/api/DispositivosS/${id}`);
         } else if (marca === "huawei") {
@@ -73,7 +73,7 @@ function Tabla({ data, setData }) {
     return errors;
   };
 
-  // Function to handle adding a new device
+  // Funcion de agregar
   const handleAgregar = async (marca, newDispositivo) => {
     const errors = validateForm(newDispositivo);
     if (Object.keys(errors).length > 0) {
@@ -81,13 +81,20 @@ function Tabla({ data, setData }) {
       return;
     }
 
+  
     try {
-      const response = await axios.post(
-        `http://localhost:3500/api/dispositivosS/`, // Endpoint para agregar dispositivos
-        { ...newDispositivo, marca }
-      );
+      let endpoint;
+      if (marca === "samsung") {
+        endpoint  = "http://localhost:3500/api/DispositivosS"; // Endpoint para agregar dispositivos Samsung
+      } else if (marca === "huawei") {
+        endpoint = "http://localhost:3500/api/DispositivosH"; // Endpoint para agregar dispositivos Huawei
+      } else if (marca === "apple") {
+        endpoint = "http://localhost:3500/api/Dispositivos"; // Endpoint para agregar dispositivos Apple
+      } else {
+        throw new Error("Marca no reconocida.");
+      }
 
-      
+      const response = await axios.post(endpoint, { ...newDispositivo, marca });
 
       if (response.status === 201) {
         // Add the new device to the corresponding brand's array
@@ -220,6 +227,7 @@ function FormularioAgregar({ marca, onAgregar }) {
   );
 }
 
-export default Tabla; 
+export default Tabla;
+
 
 

@@ -14,10 +14,11 @@ function TarjetasH() {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3500/api/dispositivosH");
-        
+        const result= response.data;
         // Filtrar dispositivos de Huawei
-        const huaweiDevices = response.data.filter((item) => item.marca === "Huawei");
-        setData(huaweiDevices);
+        //const huaweiDevices = response.data.filter((item) => item.marca === "Huawei");
+        setData(result);
+        console.log(response)
       } catch (err) {
         setError(err.message);
       } finally {
@@ -48,7 +49,7 @@ function TarjetasH() {
       <Menu setSearchTerm={setSearchTerm} />
       <div style={{ overflowY: 'scroll', maxHeight: '100vh', padding: '20px' }}>
         <div className="row row-cols-1 row-cols-md-3 g-4">
-          {filteredData.map((item) => (
+          {data.map((item, index) => (
             <div className="col" key={item.id}>
               <div className="card bg-light text-dark shadow-sm text-center">
                 <img
