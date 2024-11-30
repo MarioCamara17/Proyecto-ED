@@ -20,6 +20,10 @@ const dispositivosHRoutes = require('./routes/dispositivosH');
 app.use('/api/DispositivosH', dispositivosHRoutes);
 
 // correr el servidor
+=======
+
+
+// Start the server
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });

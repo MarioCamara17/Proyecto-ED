@@ -10,20 +10,27 @@ function TarjetasS() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
 
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:3500/api/dispositivosS");
+      console.log(response);
+      
+      
+      // Filtrar dispositivos de Samsung
+    /*   const samsungDevices = response.data.filter((item) => item.marca === "Samsung");
+      setData(samsungDevices); */
+
+      setData(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3500/api/dispositivosS");
-        
-        // Filtrar dispositivos de Samsung
-        const samsungDevices = response.data.filter((item) => item.marca === "Samsung");
-        setData(samsungDevices);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    
     fetchData();
   }, []);
 
