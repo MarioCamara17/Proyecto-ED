@@ -12,10 +12,10 @@ function Tabla({ data, setData }) {
         const response = await axios.all([
           axios.get("http://localhost:3500/api/DispositivosS"), // Samsung
           axios.get("http://localhost:3500/api/DispositivosH"), // Huawei
-          axios.get("http://localhost:3500/api/Dispositivos"),  // Apple
+          axios.get("http://localhost:3500/api/Dispositivos"), // Apple
         ]);
 
-        // Combine all data from Samsung, Huawei, and Apple
+        // Combining all data from Samsung, Huawei, and Apple
         setData({
           samsung: response[0].data,
           huawei: response[1].data,
@@ -221,6 +221,5 @@ function FormularioAgregar({ marca, onAgregar }) {
 }
 
 export default Tabla; 
-
 
 
